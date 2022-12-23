@@ -1,28 +1,116 @@
-# ESLint?
-
-## Introduction
+# ✒️ ESLint
 
 #### 1. ESLint란? (ECMAScript + Lint)
 
 - JS 코드에서 발견된 문제 패턴을 식별하기 위한 정적 코드 분석 도구.
 - 코딩 컨벤션에 위배되는 코드, 문법적인 오류나 안티 패턴을 찾아줌.
-- 코드 스타일 가이드를 편리하게 적용할 수 있는데, Airbnb와 Google Style Guide로 보통 나뉨.
-
 #### 2. 왜 이렇게 많이 쓰이는가?
 
-- 기본적으로 프로그래밍 언어는 컴파일 과정에서 수행되는 Linter 가 있는데, JS에는 이것이 없기 때문.
-- 다른 Linter Library인 JSHint, JSLint 보다 커스터마이징이 쉽고, 확장성이 뛰어나 많이 쓰이고 있다.
-- JS에서 함수나 배열을 선언할 수 있는 방법은 정말 많지만, 이를 각자의 스타일이 아니라 일정한 기준에 맞추어 작성하도록 스타일을 지정한다면 생산성이 더욱 좋아질 것.
-- 여기서 더 나아가 React, Angular와 같은 프레임워크 사용 방식도 일관성 있는 코드 스타일을 지정할 수 있기에 더더욱 채용하는 것.
+- 각자의 스타일로 코드를 작성하게 될 경우 추후 리팩터링 과정에서 코드를 분석하기 위한 노력이 많이 든다.
+- 따라서 코드를 일정한 기준에 맞추어 작성하도록 스타일을 지정한다면 생산성이 더욱 좋아질 것이다.
 - 즉. **코드의 퀄리티** 를 보장하기 위함이다.
+
+
+- React, Angular와 같은 프레임워크도 일관성 있는 코드 스타일을 지정할 수 있기에 더욱 뛰어나다.
+- 다른 사용자들이 사전에 지정한 config를 쓰거나, 필요하다면 새롭게 Rules를 만들어 사용할 수도 있다.
+- 다른 Linter Library인 JSHint, JSLint 보다 커스터마이징이 쉽고, 확장성이 뛰어나 많이 쓰이고 있다.
 
 > Lint란?
 
-- 소스코드를 분석하여 문법적인 오류나 스타일적인 오류, 적절하지 않은 구조 등에 표시 (빨간 줄) 를 달아주는 행위이다.
-- 그리고 Linter란 Lint에서 행하는 동작을 도와주는 툴을 의미한다.
-- C 언어 소스 코드를 검사하는 유닉스 유틸리티에서 기원한 것이다.
+- 소스코드를 분석하여 문법적인 오류나 스타일적인 오류, 적절하지 않은 구조 등에 표시 (빨간 줄) 를 해주는 작업이다
+- 그리고 Linter란 이러한 Lint 작업을 도와주는 툴을 의미한다.
+- C 언어 소스 코드를 검사하는 유닉스 유틸리티에서 기원하였다.
 
-## Config
+# ✒️ How does it Work?
+
+#### 1. ESLint는 어떻게 동작하는가?
+> ESLint는 크게 5가지 과정을 거쳐 동작한다.
+
+1. Javascript Code를 parser를 통해 AST (Abstract Syntax Tree) 를 생성한다.
+2. Linter가 사전에 정의한 규칙을 생성하고, parser를 통해 AST 노드를 순회한다
+3. AST 노드를 순회하면서, AST 노드 타입과 같은 이름을 가진 이벤트를 호출한다.
+4. 이벤트 발생 시 Rules의 리스너에게 전달되고, 규칙을 지켰는지에 대한 검사를 진행한다.
+5. 규칙이 맞지 않는 경우 Report를 진행하며, 가능한 경우 코드를 수정하는 Fixer도 실행한다.
+
+#### 2. AST (Abstract Syntax Tree) 란?
+
+- 프로그래밍 언어로 작성된 소스 코드의 구조를 트리 형태로 표기한 것이다.
+- Abstract (추상적) 이 붙은 이유는, 실제 구문에서 나타나는 모든 정보를 표기하지 않기 때문.
+- 하단의 JS 코드를 파싱하여 만들어진 AST는 아래와 같다.
+```javascript
+const a = 1 + "foo"
+```
+```json
+{
+  "type": "Program",
+  "start": 0,
+  "end": 19,
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "start": 0,
+      "end": 19,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "start": 6,
+          "end": 19,
+          "id": {
+            "type": "Identifier",
+            "start": 6,
+            "end": 7,
+            "name": "b"
+          },
+          "init": {
+            "type": "BinaryExpression",
+            "start": 10,
+            "end": 19,
+            "left": {
+              "type": "Identifier",
+              "start": 10,
+              "end": 11,
+              "name": "a"
+            },
+            "operator": "+",
+            "right": {
+              "type": "CallExpression",
+              "start": 14,
+              "end": 19,
+              "callee": {
+                "type": "Identifier",
+                "start": 14,
+                "end": 17,
+                "name": "foo"
+              },
+              "arguments": [],
+              "optional": false
+            }
+          }
+        }
+      ],
+      "kind": "const"
+    }
+  ],
+  "sourceType": "module"
+}
+```
+- 이를 트리 구조로 도식화하면 아래와 같은 이미지가 나오게 된다.
+![](https://velog.velcdn.com/images/rookieand/post/fb21d929-df96-43b0-aef8-bb8f2fdffc91/image.PNG)
+
+- 이후 parser를 통해 각 노드를 순회하면서, 해당 노드의 Type과 동일한 이름의 이벤트를 발생시킨다.
+- 발생된 이벤트는 Rules의 리스너에게 전달되고, 해당 노드가 규칙을 지키고 있는지를 검사한다.
+
+
+#### 3. AST의 생성 과정
+- Lexical analyzer / Scanner (렉시컬 분석)
+    - 코드의 문자를 읽어서 정해진 룰에 따라 이들을 토큰으로 만들어 합쳐주는 역할을 함.
+    - 문자를 읽다 공백 혹은 연산자, 특수문자를 발견하면 해당 단어가 끝난 것으로 간주한다.
+- Syntax analyzer / parser (신택스 분석)
+    - 렉시컬 분석을 통해 나온 토큰 목록을 트리 구조로 만든다.
+    - 이 과정에서 구조적 또는 언어적으로 문제가 발생할 경우 에러를 발생시킨다.
+    - 트리 빌딩 과정에서, 일부 parser의 경우 불필요한 토큰을 생략하기도 한다.
+
+# ✒️ ESLint's Config
 
 #### 1. .eslintrc.json (ESLint Run Command)
 
@@ -30,23 +118,24 @@
 - ESLint가 코드를 검사할 프로젝트의 루트 디렉토리에 두어야 함.
 - YAML, JSON, JS 등 여러 파일 확장자를 지원함. (보통은 JSON을 많이 씀)
 
-#### 2. eslintrc의 파일 구조0
+#### 2. eslintrc의 파일 구조
 
 1. env : 코드를 실행시킬 환경을 설정
    - 각 환경마다 미리 정의된 전역 변수를 사용하도록 허용.
-   - brower의 경우 window, node의 경우 global.
+   - `brower` 의 경우 window, `node` 의 경우 global 등..
 2. extends : 추가한 플러그인에서 사용할 config option 을 설정하는 목록.
    - 여러 기업에서 정의한 ESLint 설정을 한번에 가져올 수 있음 (airbnb, google)
    - 플러그인에서 지원하는 `recommand`, `all`, `strict` config option 을 적용할 수 있음.
-   - `eslint-plugin-` 접두사를 가진 패키지의 경우, 기존의 접두사를 제거하고 `plugin:/` 접두사를 붙인 후 옵션을 추가하면 적용이 완료됨.
-   - `eslint-config-` 접두사를 가진 패키지의 경우, 접두사를 제거한 나머지를 적용시키면 됨.
+   - `eslint-plugin-` 접두사를 가진 패키지의 경우, 이를 제거하고 `plugin:/` 을 붙여 추가.
+   - `eslint-config-` 접두사를 가진 패키지의 경우, 이를 제거한 나머지를 적용시키면 됨.
 
 ```
 {
     "extends": [
         "airbnb-typescript", // eslint-config-airbnb-typescript 패키지 사용.
-            "plugin:react/recommended",
-        "plugin:@typescript-eslint/eslint-recommended"
+        "plugin:react/recommended", // eslint-plugin-react 패키지의 recommand 옵션 사용.
+        "plugin:@typescript-eslint/eslint-recommended",
+        "plugin:@next/next/recommanded" // @next/eslint-plugin-next 패키지의 recommand 옵션 사용.
       ]
 }
 ```
@@ -60,8 +149,15 @@
 4. parser : JS의 확장 문법이나 최신 문법으로 작성된 코드를 Lint하기 위해, 이를 파싱하는 옵션.
 
 - ESLint 의 경우 기본적으로 Espree 파서를 사용함.
-- 하지만 JSX나 Typescript의 경우 순수 JS가 아니므로 ESLint가 인식하지 못하는 언어임.
-- 따라서 이를 이해하기 위해서 별도로 필요한 parser를 설정해야 하고, 파싱 옵션 또한 별도로 정의내릴 수 있음.
+- 하지만 JSX나 Typescript의 경우 순수 JS가 아니므로 ESLint가 분석하지 못하는 언어임.
+- 따라서 구문 분석을 위해서 별도의 parser를 설정하고, 파싱 옵션 또한 별도로 정의할 수 있음.
+- babel의 경우 `babel-parser` 가, Typescript의 경우 `@typescript-eslint/parser` 가 쓰인다.
+- parser 설정의 경우 플러그인에서 지원하는 `recommended` 설정에 포함되는 경우가 많다.
+
+4-1. parserOption : ESLint 사용을 위해 지원하려는 JS 옵션을 지정할 수 있음.
+- sourseType : JS 구문의 export 형태를 설정
+- ecmaFeatures : JS 구문을 어떻게 파싱할 것인지를 지정하는 옵션들
+    - jsx : JSX 구문 또한 파싱할 것인지를 결정
 
 ```
 {
@@ -76,13 +172,14 @@
 }
 ```
 
-5. plugins : 기본적으로 제공되는 규칙 외에 새로운 규칙을 사용하도록 만들어진 패키지 목록.
+5. plugins : 기본적으로 제공되는 규칙 외에 새로운 규칙을 사용하도록 만든 플러그인을 지정하는 옵션.
 
 - 사용하고자 하는 plugin 패키지를 개발 의존성으로 설치했다면 등록 가능.
-- 플러그인을 단순히 추가하는 것에서 끝나는 게 아니라, 플러그인에서 지원하는 여러 Rule들에 대한 설정도 마쳐야 적용이 완료됨.
-- 플러그인 패키지는 단순히 새롭게 정의한 Rules들을 제공할 뿐이지, 설정까지는 진행하지 않기 때문.
+- 플러그인을 단순히 추가하는 것에서 끝나는 게 아니라, 플러그인에서 지원하 Rule에 대한 설정도 마쳐야 함.
+- 플러그인은 단순히 새롭게 정의한 Rules들을 제공할 뿐이지, 설정까지는 진행하지 않기 때문.
 
 ```
+// 이렇게 plugins만 설정하면 해당 extension이 작동하지 않는다.
 {
   "plugins": ["import", "react"]
 }
@@ -131,8 +228,8 @@ eslint --ignore-path .gitignore
 
 1. eslint-plugin 이란?
 
-- 해당 패키지에서 설정한 여러 Rule을 정의한 패키지이다.
-- 따라서 단순히 해당 패키지를 plugin 섹션에 넣기만 한다면 적용이 되지 않는다.
+- 새롭게 정의한 여러 Rules 를 하나로 묶어 만든 패키지이다.
+- 따라서 단순히 플러그인 패키지를 plugin 섹션에 넣기만 한다면 적용이 되지 않는다.
 - 해당 패키지가 제공하는 여러 Rules 중에서 자신이 사용할 것들을 별도로 Rules 영역에 정의해야 한다.
 
 ```
@@ -181,14 +278,17 @@ module.exports = {
 
 2. eslint-config 란?
 
-- 여러 개의 eslint-plugins 패키지를 하나로 모아서 설정으로 만든 것.
-- eslint-config-airbnb-typescript 의 경우 하단의 패키지들로 구성되어 있다.
-  - eslint-config-airbnb-base
-  - @typescript-eslint/eslint-plugin
-  - @typescript-eslint/parser
-- 이렇게 config 패키지를 만들면
+- 여러 개의 플러그인에서 지원하는 룰을 조합하여 하나의 설정으로 만든 것.
+- 단순히 여러 플러그인의 룰을 조합한 것이므로, 플러그인 패키지는 별도로 설치해야 한다.
+- eslint-config-airbnb 는 하단의 패키지에서 지원하는 룰을 조합하였다.
+    - eslint
+    - eslint-plugin-import
+    - eslint-plugin-react
+    - eslint-plugin-react-hooks
+    - eslint-plugin-jsx-a11y 
 
-# Prettier?
+
+# ✒️ Prettier
 
 #### 1. Prettier란?
 
@@ -212,4 +312,4 @@ module.exports = {
 
 - 어찌되었던 ESLint도 코드를 스타일링해주는 기능이 있고, Prettier 또한 코드 스타일링이 주된 기능이다보니 상호 간의 충돌이 발생한다.
 - 보통 ESLint와 Prettier를 동시에 사용할 경우, ESLint의 style rule을 전부 Disabled 한다.
-- eslint-config-prettier Extension 의 경우, Prettier와 충돌 가능성이 있는 옵션을 전부 Off 해준다.
+- `eslint-config-prettier` 패키지의 경우, Prettier와 충돌 가능성이 있는 옵션을 전부 Off 해준다.
