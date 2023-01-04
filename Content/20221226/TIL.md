@@ -1,3 +1,11 @@
+# 📖 Introduction
+
+> 내가 아는 **MIME** 이라고는 인터넷에서 나도는 그 밈밖에 몰랐는데...
+
+최근 우연히 개발 관련 오픈 채팅방에 들어갔는데, 어떤 분께서 HTTP Request Header의 필드인 `Content-type` 에 대해서 질문을 주셨다. 요지는 `application/json` 이 뭘 의미하는 거에요? 였는데.. 지금까지 나는 요청을 보낼때 "아, 나 지금 json 파일 보낸거니까 이거 보고 체크해~" 정도로만 알았지 정확히 이 친구가 뭘 의미하는지를 몰랐었다.
+
+따라서 기왕 이렇게 된거 아주 끝을 보자는 마인드로 관련된 자료를 쭉 찾아보았다. 항상 무언가를 탐구하고 이해하는 과정에서 많은 피로감과 어려움을 느끼지만 그래도 이걸 왜 쓰는지를 비로소 알게 되면 눈이 맑게 개이는 느낌이 아주 좋다. 이렇게 말을 하니까 나도 참 정상인은 아닌가보다. 사서 고생한다는 게 딱 이럴때 쓰는 말인가.
+
 # ✒️ MIME Type
 
 #### 1. MIME (Multipurpose Internet Mail Extensions) 이란?
@@ -12,37 +20,36 @@
 -   하지만 네트워크를 통해 텍스트 파일이 아닌, `바이너리 파일` 을 전송하는 경우가 잦아짐.
 -   인터넷을 통해 전송 가능한 문자는 오로지 **ASCII** 표준이기 때문에, 다른 문자를 이로 변환하는 과정이 필요해졌음.
 -   따라서 바이너리 파일을 텍스트 파일로 변환하는 과정 **(인코딩)** 과 변환된 텍스트 파일을 다시 바이너리 파일로 되돌리는 과정 **(디코딩)** 과정이 추가됨.
-- 초기에 사용된 인코딩 방식인 `UUEncode` 은 단점이 존재했기에 이를 보강한 방식인 `MIME` 이 등장하게 됨.
-- 게다가 `MIME` 의 경우 전송한 파일의 포맷에 대한 정보도 ㅈ
+-   초기에 사용된 인코딩 방식인 `UUEncode` 은 단점이 존재했기에 이를 보강한 방식인 `MIME` 이 등장하게 됨.
+-   게다가 `MIME` 의 경우 전송한 파일의 포맷에 대한 정보도 ㅈ
 
 #### 2-1. 왜 UUEncode 방식은 문제가 되었을까?
 
 -   ASCII 의 경우 제어 문자에 `0 ~ 32` 번을 할당시켰다, 제어 문자의 경우 폰트의 변경이나 전송의 끝을 알리는 문자처럼 특수한 작업을 했기 때문이다.
-- 따라서 ASCII의 영문과 숫자, 그리고 특수 문자는 `33`번부터 시작하여 `127`번까지의 영역을 사용하였다.
--   따라서 ASCII의 경우 8 bit 가 아닌 7 bit 로도 충분히 모든 문자를 매핑할 수 있었기에 맨 앞의 비트는 `0` 으로 고정됨.
+-   따라서 ASCII의 영문과 숫자, 그리고 특수 문자는 `33`번부터 시작하여 `127`번까지의 영역을 사용하였다.
+-   ASCII의 경우 8 bit 가 아닌 7 bit 로도 충분히 모든 문자를 매핑할 수 있었기에 맨 앞의 비트는 `0` 으로 고정됨.
 -   하지만 바이너리 파일의 경우, 이진수의 첫번째 자리가 0으로 비워지지 않은 8 bit 데이터임.
 -   따라서 이들을 기존의 `UUEncode` 방식으로 7 bit의 ASCII 문자 데이터로 바꾸어서 전달해야 했는데, 이 과정에서 문제가 발생함.
 
 #### 2-2. UUEncode 는 어떤 방식으로 동작할까?
 
-- 바이너리 데이터의 MSB부터 `3 Bytes` (24 bits) 씩 가져와 이를 `6 bit` 로 4분할 한다.
-- 이후, 가장 앞에 `00` 을 추가하여 각 섹션을 8 bit로 맞춰준다. ASCII 는 MSB가 `0` 이기 때문이다.
-- 마지막으로 각 섹션에 `32` (100000) 를 더하여 최소 값을 32 이상으로 해 화면에 보이는 문자로만 인코딩되게끔 한다.
+-   바이너리 데이터의 MSB부터 `3 Bytes` (24 bits) 씩 가져와 이를 `6 bit` 로 4분할 한다.
+-   이후, 가장 앞에 `00` 을 추가하여 각 섹션을 8 bit로 맞춰준다. ASCII 는 MSB가 `0` 이기 때문이다.
+-   마지막으로 각 섹션에 `32` (100000) 를 더하여 최소 값을 32 이상으로 해 화면에 보이는 문자로만 인코딩되게끔 한다.
 
 ![](https://velog.velcdn.com/images/rookieand/post/7493c30e-9086-42d5-85e1-427f4d564be1/image.PNG)
 
-
 #### 2-3. UUEncode는 어떤 점이 문제였을까?
-- 인코딩된 데이터를 복호화 하는 과정에서 종종 공백이 발생하는데, 이를 변환하지 않고 무시하는 시스템에서는 문제가 발생.
-- base64에서는 이런 문제를 막기 위해 끝을 알리는 특수 문자인 `=` 을 사용.
-- 더 자세한 조사가 필요해보임. 아직 궁금증이 해결되지 않았다..
 
+-   인코딩된 데이터를 복호화 하는 과정에서 종종 공백이 발생하는데, 이를 변환하지 않고 무시하는 시스템에서는 문제가 발생.
+-   base64에서는 이런 문제를 막기 위해 끝을 알리는 특수 문자인 `=` 을 사용.
+-   더 자세한 조사가 필요해보임. 아직 궁금증이 해결되지 않았다..
 
 # ✒️ MIME Type & Content-types
 
 #### 1. MIME Type (Media Type) 은 대체 뭘까?
 
--   인터넷에 전달되는 파잇 포맷 및 포맷 컨텐츠를 위한 식별자.
+-   인터넷에 전달되는 파일 포맷 및 포맷 컨텐츠를 위한 식별자.
 -   IANA 에서 이를 표준화하고 출판하는 공식 기관으로서의 역할을 하고 있음.
 
 #### 2. MIME Type (Media Type) 의 구조
@@ -50,7 +57,7 @@
 -   기본적으로는 `type/subtype` 구조로 이루어져 있다.
 -   `type` 은 파일의 종류를 의미하며, `subtype` 은 파일의 포맷을 의미한다.
 -   `application/json` 의 경우, 바이너리 파일 (application) 중 json 포맷의 파일을 의미하는 식별자로서 기능한다.
-- 또한 추가 세부정보를 보내기 위해 파라미터를 사용할 수도 있다.
+-   또한 추가 세부정보를 보내기 위해 파라미터를 사용할 수도 있다.
 -   웹이 점차 보편화되면서 MIME type 또한 **Media type** 이라는 이름으로 확장되었다.
 
 ```
@@ -60,36 +67,37 @@ text/plain;charset=us-ascii
 
 > type의 종류
 
-기본적으로 MINE type의 `type` 은 크게 두 가지 분류로 나뉜다. 
+기본적으로 MINE type의 `type` 은 크게 두 가지 분류로 나뉜다.
 
-   - `discrete` (개별) 타입은 IANA에서 지정한 단일 문서의 카테고리다.
-        - text : 텍스트를 포함하는 모든 문서 [plain, html, css, javascript]
-        - image : 모든 종류의 이미지 파일 [gif, png, jpeg, bmp, webp]
-        - audio : 모든 종류의 오디오 파일 [midi, webm, ogg, wav]
-        - video : 모든 종류의 비디오 파일 [webm, ogg]
-        - model : 3D 오브젝트 관련 모델 데이터 [3mf, vrml]
-        - font : 모든 종류의 폰트 데이터 [woff, ttf, otf]
-        - application : 모든 종류의 바이너리 데이터 [pdf, json, octet-stream]
-   - `multipart` 타입은 다른 MIME type을 지닌 메세지들로 이루어진 하나의 복합적인 메세지이다.
-        - form-data
-        - mixed
-        - alternative
+-   `discrete` (개별) 타입은 IANA에서 지정한 단일 문서의 카테고리다.
+    -   text : 텍스트를 포함하는 모든 문서 [plain, html, css, javascript]
+    -   image : 모든 종류의 이미지 파일 [gif, png, jpeg, bmp, webp]
+    -   audio : 모든 종류의 오디오 파일 [midi, webm, ogg, wav]
+    -   video : 모든 종류의 비디오 파일 [webm, ogg]
+    -   model : 3D 오브젝트 관련 모델 데이터 [3mf, vrml]
+    -   font : 모든 종류의 폰트 데이터 [woff, ttf, otf]
+    -   application : 모든 종류의 바이너리 데이터 [pdf, json, octet-stream]
+-   `multipart` 타입은 다른 MIME type을 지닌 메세지들로 이루어진 하나의 복합적인 메세지이다.
+    -   form-data
+    -   mixed
+    -   alternative
 
 #### 3. Content-type 이란?
 
-- 웹 서버에서 HTTP 통신을 통해 전달받은 요청의 Header 내에서, 해당 요청이 보내는 데이터의 Body 타입에 대한 정보를 나타낸다.
-- 즉, Request Body에 들어가는 데이터 타입을 HTTP Header가 명시할 수 있는데, 이때 사용하는 필드를 `Content-type` 이라 한다.
-- MIME 표준 헤더 필드에 담긴 `Content-type` 과의 맥락은 다르지만, 사용 용도는 동일하다.
+-   웹 서버에서 HTTP 통신을 통해 전달받은 요청의 Header 내에서, 해당 요청이 보내는 데이터의 Body 타입에 대한 정보를 나타낸다.
+-   즉, Request Body에 들어가는 데이터 타입을 HTTP Header가 명시할 수 있는데, 이때 사용하는 필드를 `Content-type` 이라 한다.
+-   MIME 표준 헤더 필드에 담긴 `Content-type` 과의 맥락은 다르지만, 사용 용도는 어느 정도 일맥상통한다.
 
 #### 3-1. MIME type과 Content-type의 다른 점은?
-- `Content-type` 과 `MIME type` 의 목적성은 데이터의 타입을 명시하는 것에 있다.
-- 하지만 `Content-type` 의 경우 단순히 웹에 국한되어 사용되지만, `MIME type` 의 경우 인터넷 프로토콜에서 사용되므로 더 **상위의 개념**이다.
-- 한마디로, HTTP Request의 Header에 있는 Content-type 필드에는 Request Body에 담긴 데이터의 MIME type을 추가한다고 이야기할 수 있다.
+
+-   `Content-type` 과 `MIME type` 의 목적성은 데이터의 타입을 명시하는 것에 있다.
+-   하지만 `Content-type` 의 경우 단순히 웹에 국한되어 사용되지만, `MIME type` 의 경우 인터넷 프로토콜에서 사용되므로 더 **상위의 개념**이다.
+-   한마디로, HTTP Request의 Header에 있는 Content-type 필드에는 Request Body에 담긴 데이터의 MIME type을 추가한다고 이야기할 수 있다.
 
 #### 3-2. Content-type의 multipart에 대해 알아보자.
-- HTTP Request의 Header 필드인`Content-type` 에 `multipart` 타입이 들어왔다면, 이는 Body에 여러 종류의 단일 데이터가 결합된 형태의 데이터가 존재한다는 의미다.
-- 추가적인 자료 조사가 필요해보인다. 추후 이어서 준비해보자.
 
+-   HTTP Request의 Header 필드인`Content-type` 에 `multipart` 타입이 들어왔다면, 이는 Body에 여러 종류의 단일 데이터가 결합된 형태의 데이터가 존재한다는 의미다.
+-   추가적인 자료 조사가 필요해보인다. 추후 이어서 준비해보자.
 
 # ✒️ Encoding & Decoding
 
@@ -132,12 +140,12 @@ text/plain;charset=us-ascii
     - 24Bit Buffer에 MSB부터 1 Byte 씩 총 3 Byte를 넣는다.
     - 이후 Buffer의 위쪽부터 6 bit 단위로 잘라 값을 읽은 후, 사전에 정렬시킨 64개의 문자 중에서 매칭되는 것을 고른다.
     - 만약 3 Byte가 다 들어오지 않았다면, 빈 Byte 만큼 `=` 으로 패딩된다.
-    
+
     ![](https://velog.velcdn.com/images/rookieand/post/c3d3b8a0-b164-418b-9bf2-fb98ab65706d/image.PNG)
 
-
 # 📖 References
-- https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types
-- http://www.vishaldeshmukh.in/2019/10/difference-between-content-type-and.html
-- https://phpandmysql.com/extras/media-types/
-- https://developer-talk.tistory.com/386
+
+-   https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types
+-   http://www.vishaldeshmukh.in/2019/10/difference-between-content-type-and.html
+-   https://phpandmysql.com/extras/media-types/
+-   https://developer-talk.tistory.com/386
