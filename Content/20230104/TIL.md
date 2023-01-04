@@ -8,7 +8,7 @@
 
 # ✒️ Static Web Page
 
-#### 1. Static Site 란?
+### 1. Static Site 란?
 
 -   서버에서 사전에 렌더링 된 정적 리소스로 만들어진 사이트.
 -   과거에는 서버에서 잘 만들어진 HTML를 클라이언트에게 전송하였음.
@@ -44,24 +44,13 @@
 
 # ✒️ Dynamic Web Page
 
-#### 1. Dynamic Web Page 란?
+### 1. Dynamic Web Page 란?
 
 -   기술이 발전하면서 보다 폭넓은 서비스를 제공하기 위해서는 동적인 처리가 필요해졌다.
 -   초기 렌더링 이후 서버로부터 필요한 데이터를 추가적으로 요청하여, 페이지 일부를 변경하는 기술이 등장.
 -   웹 페이지에서 필요한 정보가 있을 경우, 이를 동적으로 서버에서부터 받아 **일부를 변경시키는** 페이지다.
 
-```javascript
-var xhr = new XMLHTtpRequest();
-xhr.open('GET', './time.php');
-xhr.onreadystatechange = function () {
-    if (xhr.readyState === 4 && xhr.status === 200) {
-        document.querySelector('#time').innerHTML = xhr.responseText;
-    }
-};
-xhr.send();
-```
-
-#### 2. AJAX (Asynchronous JavaScript and XML)
+### 2. AJAX (Asynchronous JavaScript and XML)
 
 -   `AJAX (Asynchronous JavaScript and XML)` 가 등장하면서, 서버와 브라우저가 비동기적으로 통신하기 용이해짐.
 -   이때 브라우저와 서버 간에는 `JSON`, `XML`, `HTML` 등과 같은 데이터를 비동기로 주고 받을 수 있음.
@@ -100,14 +89,14 @@ $.ajax({
 
 # ✒️ Client, Server Side Rendering
 
-#### 1. Client Side Rendering (CSR)
+### 1. Client Side Rendering (CSR)
 
 -   기술이 발전하면서 웹 페이지에서 제공하는 서비스가 복잡해짐으로서, AJAX만으로는 모든 로직을 처리하기가 어려워짐.
 -   이를 위해 **React, Vue, Angular** 와 같은 프레임워크가 등장하면서, 클라이언트에서 렌더링을 진행하는 경우가 많아짐.
 -   이제는 서버에서 최소한의 HTML을 받고, 내부에 위치한 script 태그로 JS 파일을 받아 클라이언트에서 페이지를 렌더링하는 형식으로 변화.
 -   초기에 애플리케이션 가동에 필요한 JS 파일의 크기가 크기에, 적극적인 코드 분할 (Code Splitting) 을 고려해야 함.
 
-![](https://velog.velcdn.com/images/rookieand/post/fce6f6b1-c0ff-46be-9284-8884035ddaf8/image.png)
+![](https://velog.velcdn.com/images/rookieand/post/fcde1395-cbed-4899-a726-d1ef59ad467e/image.webp)
 
 #### 1-1. CSR의 동작 방식
 
@@ -115,7 +104,7 @@ $.ajax({
 2. 브라우저는 script 태그를 통해 JS 번들 파일을 다운로드 하고, Ajax를 통해 동적으로 컨텐츠를 가져오며 화면을 렌더링한다.
 3. 이후 사용자가 페이지를 이동할 경우, 별도의 HTML을 받지 않고 사전에 받은 JS 파일만을 활용하여 렌더링을 진행한다.
 
-![](https://velog.velcdn.com/images/rookieand/post/fcde1395-cbed-4899-a726-d1ef59ad467e/image.webp)
+![](https://velog.velcdn.com/images/rookieand/post/fce6f6b1-c0ff-46be-9284-8884035ddaf8/image.png)
 
 #### 1-2. CSR의 장단점
 
@@ -132,10 +121,13 @@ $.ajax({
 -   페이지 메타 데이터의 변경을 위한 추가 작업이 필요함. 다른 페이지로의 이전을 진행할 경우 이를 인지시키기 위해 각 페이지에 대한 메타 데이터를 동적으로 렌더링 해야 하기 때문.
 -   클라이언트의 PC 성능에 따라 렌더링 속도가 좌우되기 때문에, PC 성능이 좋지 못할 경우 렌더링을 빠르게 하지 못할 확률이 높음.
 
-#### 2. Server Side Rendering (SSR)
+### 2. Server Side Rendering (SSR)
 
 -   서버에서 사전에 렌더링된 파일을 클라이언트에게 전송하고, 클라이언트는 이를 즉시 렌더링하는 방식이다.
 -   단, JS의 경우 정적 리소스 (HTML, CSS) 가 렌더링 된 이후 적용되기에 JS가 모두 적용되기 전에는 조작이 불가능하다.
+
+![](https://velog.velcdn.com/images/rookieand/post/9224530e-456a-442a-9c47-2873f09f46cc/image.webp)
+
 
 #### 2-1. SSR의 동작 방식
 
@@ -143,6 +135,9 @@ $.ajax({
 2. 컴파일된 HTML은 브라우저에 제공되며, 브라우저는 이를 다운로드하고 렌더링하여 사용자가 이를 볼 수 있도록 한다.
 3. 이후 JS 파일을 다운로드 받은 후 실행하여 사용자와 페이지 간의 인터렉션을 가능하게끔 한다.
 4. 사용자가 다른 페이지로 이동을 진행할 경우, 1~3번의 과정을 반복한다.
+
+![](https://velog.velcdn.com/images/rookieand/post/4df6ccd8-332e-4ab6-a855-027c7c72efe1/image.png)
+
 
 #### 2-2. SSR의 장단점
 
@@ -160,28 +155,26 @@ $.ajax({
 -   각 페이지를 로드하는 과정이 오래 걸린다면, 되려 사용자 경험을 해칠 수 있다.
 -   각 요청에 대한 HTML 파일을 그때 그때 렌더링 해야 하기 때문에, CDN을 활용한 캐싱 전략을 사용할 수 없다.
 
-![](https://velog.velcdn.com/images/rookieand/post/4df6ccd8-332e-4ab6-a855-027c7c72efe1/image.png)
-
-> TTFB(Time to First Byte) 는 뭘까?
+> **TTFB(Time to First Byte)** 는 뭘까?
 
 -   TTFB는 HTTP 요청을 보낼 경우, 서버에서부터 첫번째 Byte (정보) 가 오기까지 걸리는 시간을 의미합니다.
 -   CSR의 경우 처음 렌더링 이후부터는 요청이 필요한 경우에만 서버에서 필요한 데이터만을 받아오기에 TTFB가 빠릅니다.
 -   하지만 SSR의 경우 매 페이지 이동 시마다 페이지 렌더링에 필요한 리소스를 받아오기에 상대적으로 TTFB가 느립니다.
 
-> FP? FCP? 이것들은 또 뭔가?
+> **FP? FCP?** 이것들은 또 뭔가?
 
 -   FP (First Paint) : 첫번째 **픽셀** 이 스크린에 Paint 되었을 때의 시간을 의미한다.
 -   FCP (First Contentful Paint) : DOM에 속한 컨텐츠의 일부가 스크린에 Paint 되었을 때의 시간을 의미한다.
 -   FP, FCP의 경우 Chrome의 timing API로 추적이 가능하며, GA 같은 도구로 리포팅이 가능하다.
 -   즉 FP와 FCP의 사용 목적은 얼마나 빨리 화면이 렌더링 되는지를 측정하기 위함이다.
 
-> CDN (Content Delivery Network) 이란?
+> **CDN (Content Delivery Network)** 이란?
 
 서버와 사용자 사이의 물리적인 거리를 좁혀 컨텐츠 로딩 속도를 최소화 하기 위한 전송 기법. 보통 여러 곳에 캐시 서버를 둔 후 이 중에서 사용자와 가장 가까운 서버를 찾아 요청한 컨텐츠를 제공한다.
 
 # ✒️ Static Site Generator, Universal Rendering
 
-#### 1. SSG (Static Site Generator)
+### 1. SSG (Static Site Generator)
 
 -   SSR 처럼 서버로부터 렌더링된 HTML을 받아오지만, HTML의 생성 시점이 **빌드 타임**이라는 것이 SSR과의 차이점이다.
 -   SSR의 경우 요청이 들어오면 그때마다 필요한 HTML을 렌더링해야 하지만, SSG의 경우 HTML을 사전에 빌드 타임에서 생성하였으므로 이를 전송만 하면 된다.
@@ -210,7 +203,7 @@ $.ajax({
 
 -   모든 페이지 (URL) 에 대한 HTML을 생성해야 한다. 따라서 동적으로 변하는 URL 들에 대한 대응이 어렵다.
 
-#### 2. Universal Rendering
+### 2. Universal Rendering
 
 -   SSR을 통해 초기에 빠른 FCP를 구현한 이후, 클라이언트 단위에서 `hydration` 기법을 통해 JS 파일을 적용하여 인터렉션을 가능하게끔 하는 방식.
 -   초기 로딩 시에는 SSR처럼 작동하고, 이후에는 CSR로 작동하는 방식이며 **Next.js, Nuxt.js** 와 같은 프레임워크를 사용한다.
@@ -251,7 +244,7 @@ JS 코드 내의 "이벤트 핸들러" 함수들을 정적인 DOM 노드들에 �
 
 # ✒️ Single, Multiple Page Application
 
-#### 2. SPA (Single Page Application)
+### 1. SPA (Single Page Application)
 
 -   하나의 페이지에서 새로운 페이지를 불러오지 않고, 필요한 부분만 동적으로 변경하는 애플리케이션을 **SPA** 라고 함.
 -   초기의 SPA 는 AJAX 통신을 활용하여 필요한 데이터를 동적으로 바인딩하는 방식이었음.
@@ -264,7 +257,7 @@ JS 코드 내의 "이벤트 핸들러" 함수들을 정적인 DOM 노드들에 �
 -   TTI (Time To Interact) : 사용자가 어플리케이션 화면과 `"상호작용"` 할 수 있기까지 걸리는 시간.
 -   즉 TTV가 빠르면 화면이 빠르게 보이는 것이며, TTI이 빠르다면 웹을 빠르게 사용할 수 있다는 것이다.
 
-#### 2-1. SPA의 장단점
+#### 1-1. SPA의 장단점
 
 1. 장점
 
@@ -282,7 +275,7 @@ JS 코드 내의 "이벤트 핸들러" 함수들을 정적인 DOM 노드들에 �
 -   SEO (Search Engine Optimization), 즉 검색 엔진 최적화를 진행하기 어려움. 서버에는 초기 HTML이 비어있는 경우가 많기 때문.
 -   사용자의 정보를 클라이언트 측에서 관리할 경우, 보안 이슈가 발생할 수 있음. (저장할 공간이 쿠키, 스토리지 뿐)
 
-#### 3. MPA (Multiple Page Application)
+### 2. MPA (Multiple Page Application)
 
 -   여러 개의 페이지로 이루어진 어플리케이션이며, 새로운 페이지를 요청할 때마다 서버에서 렌더링 된 정적 리소스를 전달함.
 -   현재 페이지에서 다른 페이지로 이동하거나, 새로고침이 진행될 경우 서버에서 페이지를 다시 렌더링 해야 한다.
@@ -304,7 +297,7 @@ JS 코드 내의 "이벤트 핸들러" 함수들을 정적인 DOM 노드들에 �
 
 # ✒️ SPA, MPA, CSR, SSR?
 
-#### 1. SPA = CSR? 차이점은 뭘까?
+### 1. SPA = CSR? 차이점은 뭘까?
 
 -   SPA와 CSR은 같은 개념이 아니다. 정확히는 SPA를 **구현하기 위해** CSR 방식이 쓰이는 것이다.
 -   `SPA vs MPA` 는 애플리케이션 구동을 위해 페이지를 하나만 쓰는지, 여러 개를 쓰는지에 대한 차이다.
@@ -312,7 +305,7 @@ JS 코드 내의 "이벤트 핸들러" 함수들을 정적인 DOM 노드들에 �
 -   따라서 SPA는 첫 페이지만 서버에서 받아오고 이후의 변화는 동적으로 처리하기 위해 CSR 방식을 채택한다.
 -   반대로 MPA의 경우 페이지가 달라질 때마다 서버에서 렌더링 된 리소스를 받아오기 위해 SSR 방식을 채택한다.
 
-#### 2. SPA는 CSR로, MPA는 SSR로?
+### 2. SPA는 CSR로, MPA는 SSR로?
 
 -   SPA는 SSR로 구현이 어렵고, MPA는 CSR로 구현이 어렵다.
 -   하지만 SPA에서 첫 로딩의 경우에만 SSR을 쓰고, 이후의 요청에 대해서는 CSR 방식을 쓸 수 있다. (Next.js)
