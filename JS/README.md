@@ -2,8 +2,8 @@
 
 ### Description
 
-- 좋은 기회로 만나게 된 네 명의 개발자 분들과 진행한 JS 스터디입니다.
-- 학습한 책은 
+-   좋은 기회로 만나게 된 네 명의 개발자 분들과 진행한 JS 스터디입니다.
+-   학습한 책 : 모던 자바스크립트 핵심 가이드, 자바스크립트 Deep Dive
 
 ### Concept
 
@@ -12,7 +12,11 @@
 따라서 이제부터는 이런 불상사를 막고자 개발을 진행하며 문득 든 의문점이 있다면
 곧바로 이를 학습하고 배운 개념을 정리하여 별도의 레포지토리에 보관하고자 합니다.
 
-### Learning List
+## Weekly Learning List
+
+---
+
+#### Week 1
 
 -   [var, const, let](https://github.com/RookieAND/JS_Study/Chapter1.md)
 -   [Arror Function](https://github.com/RookieAND/JS_Study/Chapter2.md)
