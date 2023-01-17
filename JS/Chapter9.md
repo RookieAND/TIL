@@ -16,7 +16,7 @@ console.log(menu); // ["tomato", "tomato", "beans", "pork", "beef", "chicken"]
 
 #### 2. 배열의 스프레드 연산자
 
-- Spread Operator (...) 를 사용하여 만들어진 배열의 경우, 깊은 복사를 진행한다.
+- Spread Operator (...) 를 사용하여 만들어진 배열의 경우, 새로운 배열을 반환한다.
 
 ```javascript
 const origin = [1, 2, 3, 4, 5];
