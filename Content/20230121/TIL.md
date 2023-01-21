@@ -44,15 +44,14 @@
 
 - 전역 상태 관리 라이브러리의 경우, 서버의 데이터와 다른 값을 보유할 수도 있다.
 - 그에 대한 이유는 앞서 말한 server state의 비동기적인 특성 때문이다.
-- 또한, 서버에서 받아온 데이터는 로드된 시간의 "스냅샷" 에 불과하다.
+- 서버에서 받아온 데이터는 데이터를 로드한 그 시간의 "스냅샷" 에 불과하다.
 
   - fetch, update를 위한 별도의 비동기 API가 필요함.
   - 지속적인 관찰이 미비할 경우 오래된 데이터로 취급될 수 있음.
   - 다른 사용자에 의해 서버 단에서 데이터가 변경될 수 있음.
   - 기본적으로 클라이언트가 관리할 수 없는 영역에 위치해 있음.
 
-- 추가적으로 클라이언트에서 보유 중인 데이터가 아직 유효한지를 확인하는 것도 어렵다.
-- 왜냐하면 서버에서 특정 데이터에 대한 변경이 이루어지더라도 클라이언트에서 이를 즉시 확인할 방법이 없기 때문이다.
+- 클라이언트에서 보유 중인 데이터가 서버의 데이터와 같은지를 확인하기도 어렵다.
 - 따라서 server state를 원활하게 다루기 위해서는 아래와 같은 조건이 선행되어야 한다.
 
   - 서버로부터 받은 데이터를 캐싱
@@ -68,5 +67,90 @@
 
 # ✒️ Structure of React Query
 
-state : fresh, stale, inactive (캐싱된 데이터에 대한 상태)
-fetchState : fetching, paused, idle (query Function에 대한 상태, 현재 실행 중인지 아닌지?)
+#### 1. React Query 에서 쿼리는 무엇을 의미하는가?
+
+> A query is a declarative dependency on an asynchronous source of data that is tied to a unique key
+
+- Query란, 고유한 키에 묶인 비동기적인 데이터에 대한 선언적 종속성 (?) 이다.
+- Query는 서버에서 데이터를 가져오기 위해 Promise를 반환하는 함수와 같이 쓰인다.
+- 서버로부터 데이터를 가져올 경우에는 `useQuery`, `useInfiniteQuery` Hook을 쓴다.
+- 단, 서버의 데이터를 수정할 경우에는 `useMutation` Hook을 사용해야 한다.
+
+#### 2. queryKey와 queryFn에 대하여.
+
+```javascript
+function Todos() {
+	const { isLoading, isError, data, error } = useQuery({
+		queryKey: ["todos"],
+		queryFn: fetchTodoList,
+	});
+
+	if (isLoading) {
+		// if (state === 'loading')
+		return <span>Loading...</span>;
+	}
+
+	if (isError) {
+		// if (state === 'error')
+		return <span>Error: {error.message}</span>;
+	}
+
+	// 이 지점까지 코드가 도달했다면, 정상적으로 쿼리가 success state를 가짐.
+	return (
+		<ul>
+			{data.map((todo) => (
+				<li key={todo.id}>{todo.title}</li>
+			))}
+		</ul>
+	);
+}
+```
+
+- `queryKey` 의 경우, 쿼리를 refetch 하거나 캐싱하거나, 다른 곳에서 사용하고자 할때 쓰이는 고유한 키다.
+- `useQuery` 로 리턴된 결과값은 쿼리에 대한 모든 정보들을 한데 모아 보관한 객체다.
+- `queryFn` 의 경우 서버로부터 데이터를 가져오기 위해 쓰이는 비동기 함수를 의미하며, 반드시 Promise를 리턴해야 한다.
+
+#### 3. 쿼리가 데이터를 가져오는데 실패했다면?
+
+- 만약 쿼리가 데이터를 가져오는 데 실패했다면, react query의 경우 기본적으로 세 차례 재요청을 진행한다.
+- 만약 재요청 횟수와 인터벌을 수정하고 싶다면, `retry` 옵션과 `retryDelay` 옵션을 별도로 설정하자.
+
+#### 4. 쿼리의 상태는 어떻게 구분짓는가?
+
+- `useQuery` 가 리턴한 결과 객체에서, `state` 속성으로 데이터 상태를 파악한다.
+- `state` 속성의 경우 쿼리가 가진 데이터에 대한 상태를 파악하고자 할때 쓰인다.
+
+1. loading : 쿼리가 아직 **데이터를 가지지 않음** 을 의미.
+2. error : 쿼리에 특정한 **오류가 발생했음** 을 의미.
+3. success: 쿼리가 성공적으로 작동되었으며, 데이터가 유효함을 의미.
+
+- `fetchState` 속성의 경우 쿼리가 사용한 `queryFn` 의 동작 결과를 나타낸다.
+
+1. idle: 현재 해당 쿼리의 `queryFn` 이 동작하지 않고 있음을 의미.
+2. fetching: 현재 쿼리가 서버로부터 데이터를 fetching 중임을 의미.
+3. paused: 쿼리가 데이터를 불러오던 중에 중지되었음을 의미. (네트워크 이슈 등)
+
+- 따라서 `state` 와 `fetchState` 를 모두 확인하여 쿼리의 상태를 유추할 수 있다.
+
+#### 5. 쿼리가 가리키는 데이터의 상태는 어떻게 구분하는가?
+
+4. fresh
+   - 해당 쿼리가 아직 **유효**함을 의미, refetch를 진행하지 않음.
+5. stale:
+   - 해당 쿼리의 유효 기간이 지나 **오래된 데이터**가 되었음을 의미.
+   - 기본적으로 fresh한 데이터는 fetching이 완료되는 즉시 stale한 상태로 변경됨.
+   - `staleTime` 옵션을 통해 fresh한 데이터가 stale 한 상태가 되기까지 걸리는 시간을 지정할 수 있음.
+6. inactive
+   - 해당 쿼리가 `unmount` 되어 현재 비활성화 되었음을 의미.
+   - 기본적으로 inactive한 상태가 된 후 5분이 지나면 해당 쿼리는 자동으로 GC에 수집됨.
+   - `cacheTime` 옵션을 통해 inactive 된 쿼리 데이터가 GC에게 수집되기까지 걸리는 시간을 지정할 수 있음.
+
+#### 6. 캐싱된 데이터는 어떻게 관리되는가?
+
+- `useQuery` 혹은 `useInfiniteQuery` 로 생성된 쿼리 인스턴스는 디폴트로 캐싱된 데이터를 `stale` 상태로 본다.
+- 단, `staleTime` 속성을 수정함으로서 해당 쿼리에 종속된 데이터의 유효 시간을 설정할 수 있다.
+- React Query 에서는 다음과 같은 현상이 발생할 경우 `stale` 한 쿼리를 refetch 한다.
+  1. 새로운 쿼리 인스턴스가 mount 되었을 경우. (refetchOnMount)
+  2. 사용자가 창을 클릭하여 focus 하였을 경우. (refetchOnWindowFocus)
+  3. 네트워크가 재연결 되었을 경우. (refetchOnReconnect)
+  4. 사용자가 특정 주기마다 refetch를 진행하도록 한 경우 (refetchInterval)
