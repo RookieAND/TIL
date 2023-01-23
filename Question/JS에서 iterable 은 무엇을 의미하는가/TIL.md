@@ -2,8 +2,6 @@
 
 #### Iterable
 
-1. 정의 및 특징
-
 -   ES6에서 새롭게 규정된 것으로 "배열을 일반화한 객체" 를 의미한다.
 -   JS에서는 Iteration Protocol 을 통해 해당 객체가 Iterable한지를 평가한다.
 -   Iterable 한 객체는 항상 `for..of` 반복문을 통해 컬렉션을 순회할 수 있다.
@@ -17,16 +15,16 @@
 
 #### Iterator
 
--   1. 정의
+1. 정의
 
-    -   Itrable 한 객체가 반복하면서 어떠한 값을 반환할지를 결정하는 객체이다.
+    - Itrable 한 객체가 반복하면서 어떠한 값을 반환할지를 결정하는 객체이다.
 
--   2. 조건
+2. 조건
 
-    -   Iterator 객체 내에는 반드시 `next` 메서드가 존재해야 한다.
-    -   `next` 메소드의 경우 반드시 `IteratorResult` 객체를 반환해야 한다.
-    -   `IteratorResult` 객체는 `done: boolean` 과 `value: any` 속성을 가진다.
-    -   done 속성이 `true` 라면 반복이 끝났음을 의미하여, 이후 `false` 로 전환될 수 없다.
+    - Iterator 객체 내에는 반드시 `next` 메서드가 존재해야 한다.
+    - `next` 메소드의 경우 반드시 `IteratorResult` 객체를 반환해야 한다.
+    - `IteratorResult` 객체는 `done: boolean` 과 `value: any` 속성을 가진다.
+    - done 속성이 `true` 라면 반복이 끝났음을 의미하여, 이후 `false` 로 전환될 수 없다.
 
 #### 한번 Iterable한 객체를 구현해보자.
 
