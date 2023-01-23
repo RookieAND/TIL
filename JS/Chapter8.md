@@ -22,10 +22,11 @@ console.log(Array.from({ length: 2 }, () => Array(2).fill(0))); // [[0, 0], [0, 
 
 ```javascript
 console.log(Array.from({ 0: 'first', 1: 'second' length: 3 })); // ['first', 'second', undefined]
+console.log(Array.from({ length: 5 }, () => 0)); // [0, 0, 0, 0, 0]
 ```
 
 -   그렇다고 해서 유사 배열 객체가 Iterable 하다는 보장은 없다. Iterable 객체 또한 유사 배열 객체가 아닐 수 있다.
--   Iterable한 객체와 유사 배열 객체를 배열처럼 다루고 싶다면, `Array.from` 메서드를 통해 이를 실제 배열로 변환시킨다.
+-   Iterable한 객체와 유사 배열 객체를 배열처럼 다루고 싶다면, `Array.from` 메서드를 통해 실제 배열로 변환시키자.
 
 #### 2. Array.of(element0[, element1[, ...[, elementN]]])
 
