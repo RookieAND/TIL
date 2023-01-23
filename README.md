@@ -13,5 +13,8 @@
 
 ### Learning List
 
--   [ESLint와 Prettier가 무엇이며, 왜 써야 하는가?](https://github.com/RookieAND/Content/20221223/TILmd)
--   [Git Hooks와 Husky는 무엇이며, 왜 써야 하는가?](https://github.com/RookieAND/Content/20221224/TIL.md)
+-   [ESLint와 Prettier가 무엇이며, 왜 써야 하는가?](https://github.com/RookieAND/Question/ESLint, Prettier를 왜 써야 할까/TIL.md)
+-   [Git Hooks와 Husky는 무엇이며, 왜 써야 하는가?](https://github.com/RookieAND/Question/Git Hook은 무엇이고, Husky는 왜 쓰는걸까/TIL.md)
+-   [MIME type은 뭐고, Content-type은 뭘까](https://github.com/RookieAND/Question/MIME type은 뭐고, Content-type은 뭘까/TIL.md)
+-   [CSR, SSR, SPA, MPA, 이것들은 뭘까](https://github.com/RookieAND/Question/CSR, SSR, SPA, MPA, 이것들은 뭘까/TIL.md)
+-   [server state는 무엇이고, react query는 왜 쓸까](https://github.com/RookieAND/Question/server state는 무엇이고, react query는 왜 쓸까/TIL.md)
