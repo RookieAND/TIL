@@ -1,3 +1,11 @@
+# 📖 Introduction
+
+> **Git Hook** 이라는 것도 처음 들어보는데, **Husky**는 왜 또 쓰는 걸까?
+
+어제 ESLint 관련 학습을 마치고 나서 Husky와 관련된 학습을 추가적으로 진행하려는데, Git hooks 이 무엇인지 묻는 질문에서 이미 내 정신은 턱 막혀버렸다. 도대체가 이놈의 공부는 하나를 좀 하려 하면 연쇄적으로 모르는 게 어디서 터져나온다. 아주 사람을 환장하게 만드는데는 도가 텄다.
+
+결국 울며 겨자먹기로, 어차피 알아야 했을 내용이라 생각하며 Git hook에 대한 내용부터 먼저 학습했는데.. 어랍쇼 이거 봐라. 생각보다 유용하다. 따라서 오늘은 5시간 동안 여러 삽질과 정리를 통해 내가 어떻게 Husky를 적용하였고 자체적인 Git Hooks Script는 어떤 방식으로 작성했는지, 그리고 근본적으로 **왜** Husky를 사용해야 하는지에 대한 고찰과 답변을 작성하고자 한다.
+
 # ✒️ Git Hook
 
 #### 1. Git Hook 이란?
@@ -26,35 +34,28 @@
 
 > git patch란?
 
-git commit을 하나의 파일로 만들 경우 patch 파일이 생성된다. 이는 다른 개발자에게 전달이 가능하다.
-
-`git format-patch` 명령어를 사용할 시, 적용된 각각의 commit에 대응되는 patch 파일이 생성된다.
-
-이렇게 만들어진 파일을 전달받아 다시 commit으로 적용하려면, `git am [patch-file]` 명령어를 사용하여 commit에 반영시킨다.
+- git commit을 하나의 파일로 만들 경우 patch 파일이 생성된다. 이는 다른 개발자에게 전달이 가능하다.
+- `git format-patch` 명령어를 사용할 시, 적용된 각각의 commit에 대응되는 patch 파일이 생성된다.
+- 이렇게 만들어진 파일을 전달받아 다시 commit으로 적용하려면, `git am [patch-file]` 명령어를 사용하여 commit에 반영시킨다.
 
 > git rebase란?
 
-두개의 branch에서, 한 branch의 base를 다른 branch의 최신 커밋으로 적용하는 작업이다.
-
-다른 개발자가 올린 commit의 수정사항을 내가 작업한 branch에 즉각 적용할 수 있다.
-
-또한 rebase는 merge와 달리 commit 이력이 남지 않아 보다 깔끔한 commit history를 가져갈 수 있음.
-
-단, rebase의 경우 merge와 달리 각 commit에 대한 confilct 처리를 일일히 해줘야 한다는 단점이 있지만, 오히려 이것이 장점으로 부각될 수 있음.
+- 두개의 branch에서, 한 branch의 base를 다른 branch의 최신 커밋으로 적용하는 작업이다.
+- 다른 개발자가 올린 commit의 수정사항을 내가 작업한 branch에 즉각 적용할 수 있다.
+- 또한 rebase는 merge와 달리 commit 이력이 남지 않아 보다 깔끔한 commit history를 가져갈 수 있음.
+- 단, rebase의 경우 merge와 달리 각 commit에 대한 confilct 처리를 일일히 해줘야 하지만, 오히려 이것이 장점으로 부각될 수 있음.
 
 > Shell Script란?
 
-Shell에서 사용 가능한 명령어들의 조합을 모아서 만든 배치 (Batch : 데이터를 일괄적으로 모아서 처리하는 작업) 파일이다.
-
-즉, OS의 Shell을 사용하여 각 줄의 명령어를 순차적으로 실행시켜주는 인터프리터 방식의 프로그램이다.
-
-스크립트의 첫 줄에 적힌 `#!/bin/bash` 에서 `#!` 은 Shebang이라고 칭하며, 해당 Shell Script 파일을 해석해줄 인터프리터의 절대 경로를 지정한 것이다.
-
-따라서 `#!/bin/bash` 의 의미는 해당 파일을 여러 종류의 shell 중 `bash` 를 통해 실행시키겠다는 의미이다. `sh` 를 적용하고 싶다면 `#!/bin/sh` 를 작성하면 된다.
+- Shell에서 사용 가능한 명령어들의 조합을 모아서 만든 배치 (Batch : 데이터를 일괄적으로 모아서 처리하는 작업) 파일이다.
+- 즉, OS의 Shell을 사용하여 각 줄의 명령어를 순차적으로 실행시켜주는 인터프리터 방식의 프로그램이다.
+- 스크립트의 첫 줄에 적힌 `#!/bin/bash` 에서 `#!` 은 Shebang이라고 칭하며, 해당 Shell Script 파일을 해석해줄 인터프리터의 절대 경로를 지정한 것이다.
+- 따라서 `#!/bin/bash` 의 의미는 해당 파일을 여러 종류의 shell 중 `bash` 를 통해 실행시키겠다는 의미이다. `sh` 를 적용하고 싶다면 `#!/bin/sh` 를 작성하면 된다.
 
 #### 3. Git Hook 적용 방식은?
 
-git hook의 경우 `.git/hooks` 디렉토리 안에 저장된다. hook은 실행 가능한 Shell Script이며, 설정하고자 하는 훅을 확장자 없이 파일 명으로만 지정하면 적용이 가능하다.
+- git hook의 경우 `.git/hooks` 디렉토리 안에 저장된다. 
+- hook은 실행 가능한 Shell Script이며, 설정하고자 하는 훅을 확장자 없이 파일 명으로만 지정하면 적용이 가능하다.
 
 예시로 `pre-commit` 훅을 적용하여 commit 전에 `Hello Gwangin!` 메세지를 출력시키고 싶다면 아래와 같이 파일을 생성한다.
 
@@ -94,10 +95,9 @@ exit 0
 #### 1. husky란?
 
 -   Husky는 git hooks 를 적용하게 해주는 라이브러리다.
--   사용자가 `./git/hooks` 디렉토리에 스크립트를 넣을 경우 git에 올라가지 않지만, `.husky` 폴더 내에 스크립트를 하면 올라가므로 git hook을 다른 개발자와 공유할 수 있다.
+-   사용자가 `./git/hooks` 디렉토리에 스크립트를 넣을 경우 git에 올라가지 않는다.
+-   하지만`.husky` 폴더 내에 스크립트를 저장하면 git hook을 다른 개발자와 공유할 수 있다.
 -   단, `./git` 이 존재하는 디렉토리에 `./husky` 파일이 있어야 정상적으로 작동이 가능하다.
-    -   나의 경우 하나의 레포지토리에 클라이언트와 서버 프로젝트가 담겨 있어, 이에 대한 해결이 필요했다.
-    -   앞으로는 서버와 클라이언트를 별도의 레포로 분리해서 관리하는 게 좋아 보인다...
 
 #### 2. 왜 Husky를 써야 할까?
 
@@ -135,8 +135,8 @@ cp git_hooks/* .git/hooks
  git clone --template=/main/git_templates https://github.com/RookieAND/test-git-hooks.git
 ```
 
-단, 1번과 2번의 경우 결국 다른 사용자가 git hooks을 수동으로 적용해야만 한다. 고로 다른 사용자가 이를 까먹었을 경우 hook이 정상적으로 적용되지 않을 가능성이 높다.
-
+단, 1번과 2번의 경우 결국 다른 사용자가 git hooks을 수동으로 적용해야만 한다. 
+고로 다른 사용자가 이를 까먹었을 경우 hook이 정상적으로 적용되지 않을 가능성이 높다.
 따라서 이러한 문제를 해결하기 위해 도입된 library가 바로 **husky** 다.
 
 #### 3. husky를 어떻게 적용해야 할까?
@@ -157,13 +157,15 @@ yarn husky install
 설정이 완료되면 프로젝트에 `.husky` 디렉토리가 생성되고, 이 안에서 hook 스크립트를 추가하면 된다.
 
 ```
-.husky/
+/.husky
     └─ .gitignore
     └─ husky.sh
     └─ 내가 추가할 script...
 ```
 
-#### 4. ESLint + lint-staged + Husky 조합으로 lint 적용
+# ✒️ Use Husky with..
+
+#### 1. ESLint + lint-staged + Husky 조합으로 lint 적용
 
 -   lint-staged : staged 상태에 놓인 파일을 검사하여 lint를 통과하지 못한 파일은 commit failed 처리 시키는 라이브러리.
 -   lint-staged를 적용하기 위해서는 `lint-staged` 라이브러리를 개별 의존성으로 설치해야 한다.
@@ -186,7 +188,7 @@ yarn husky install
 npx lint-staged
 ```
 
-#### 5. commitlint + Husky 조합으로 커밋 컨벤션 적용
+#### 2. commitlint + Husky 조합으로 커밋 컨벤션 적용
 
 -   commitlint란, commit을 진행할 경우 커밋 컨벤션 준수 여부를 체크해 성공, 실패를 리턴하는 Linter Library 다.
 -   commitlint를 적용하기 위해서는 하단의 라이브러리를 개발 의존성으로 설치해야 한다.
@@ -208,3 +210,6 @@ module.exports = { extends: ['@commitlint/config-conventional'] };
 
 npx --no-install commitlint --edit
 ```
+![](https://velog.velcdn.com/images/rookieand/post/35388536-bfa6-49ef-95a4-a4a309562334/image.PNG)
+
+~~fix 과 콜론 사이에 공백을 넣어서 빠꾸 당한 모습이다.~~
