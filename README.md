@@ -18,3 +18,10 @@
 -   MIME type은 뭐고, Content-type은 뭘까
 -   CSR, SSR, SPA, MPA, 이것들은 뭘까
 -   server state는 무엇이고, react query는 왜 쓸까
+
+### Unsolved Question List
+
+-   Polyfill, Transfile, Compile의 차이점이란?
+-   React Fiber는 무엇이며, 어떻게 성능을 향상시켰는가?
+-   클래스형 컴포넌트에서 함수형 컴포넌트로 전환한 이유는 무엇인가?
+-   Vite는 무엇이며, 왜 사용하는 걸까
