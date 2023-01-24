@@ -60,20 +60,6 @@ expect(linkElement).toBeInTheDocument();
     -   `toBe()` 는 expect 함수로 받은 요소가 matcher에서 받은 인자와 동일한지를 검증한다.
     -   `toHaveLength()` 는 expect 함수로 받은 배열의 길이가 mathcer에서 받은 인자와 동일한지를 검증한다.
 
-# React Testing Library (RTL)
-
-#### What is RTL?
-
--   RTL은 JSX로 작성된 컴포넌트를 가상 DOM으로 렌더링해준다. (render)
--   RTL은 렌더링 된 가상 DOM을 일정한 기준에 맞춰 탐색해준다. (screen.getByText)
--   RTL은 렌더링된 가상 DOM 과 상호 작용 하는 것을 돕는다.
--   RTL의 경우 주로 Functional Test 에 사용하는 것을 권장함.
-
-#### RTL은 어떤 기능을 하는가?
-
--   테스트를 위한 가상 DOM을 생성하고 DOM과 상호 작용하기 위한 유틸리티를 제공.
--   브라우저 없이도 React 관련 테스트를 진행할 수 있게 해준다.
-
 # Jest
 
 #### What is Jest?
