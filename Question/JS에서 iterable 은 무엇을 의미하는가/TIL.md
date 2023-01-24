@@ -47,10 +47,11 @@
 
 ```javascript
 // 함수 range는 반드시 iterable 한 객체를 반환하도록 함.
-const range = (from, to) => {
+const range = (from, to, step = 1) => {
     return {
         from,
         to,
+        step,
         // [Symbol.iterator] 메소드는 Iterator 객체를 반환함.
         [Symbol.iterator]() {
             return {
@@ -60,7 +61,9 @@ const range = (from, to) => {
                 // next 메소드의 경우 반드시 IteratorResult 객체를 리턴해야 함.
                 next() {
                     while (this.current < this.end) {
-                        return { value: this.current++, done: false };
+                        const beforeCurrent = this.current;
+                        this.current += this.step;
+                        return { value: beforeCurrent, done: false };
                     }
                     // 반복이 끝났을 경우 done 속성의 값은 true, value는 생략 가능.
                     return { done: true };
@@ -84,17 +87,20 @@ for (const num of range(1, 11)) {
 -   또한 Iterable 객체가 현재 자신이 어디까지 반복을 진행했는지도 기억할 수 있다.
 
 ```javascript
-const range = (from, to) => {
+const range = (from, to, step = 1) => {
     return {
         from,
         to,
+        step,
         // 현재 반복이 어디까지 진행되었는지를 저장하는 프로퍼티 current.
         current: from,
         // Well-formed Iterable 객체이므로, 내부에 next 메소드를 지원해야 함.
         // 또한 next 메소드는 반드시 IteratorResult 객체를 반환해야 함.
         next() {
             while (this.current < this.to) {
-                return { value: this.current++, done: false };
+                const beforeCurrent = this.current;
+                this.current += this.step;
+                return { value: beforeCurrent, done: false };
             }
             return { done: true };
         },
@@ -107,14 +113,14 @@ const range = (from, to) => {
     };
 };
 
-const rangeObj = range(1, 11);
+const rangeObj = range(1, 12, 2);
 console.log(rangeObj.next()); // {value: 1, done: false}
-console.log(rangeObj.next()); // {value: 2, done: false}
 console.log(rangeObj.next()); // {value: 3, done: false}
+console.log(rangeObj.next()); // {value: 5, done: false}
 
-// 앞에서 next 메서드를 호출했기 때문에, 반복 시 4부터 시작된다.
+// 앞에서 next 메서드를 호출했기 때문에, 반복 시 7부터 시작된다.
 for (const num of rangeObj) {
-    console.log(num); // 4, 5, ... 10
+    console.log(num); // 7, 9, 11
 }
 ```
 
