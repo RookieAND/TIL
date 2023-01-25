@@ -25,6 +25,8 @@
 
 -   인자로 받은 값이 Set 객체 내부에 있는지를 확인하고, 결과를 `boolean` 으로 반환한다.
 
+> https://velog.io/@dev_shu/%EC%99%9C-set.has%EB%8A%94-O1%EC%9D%B8%EA%B0%80
+
 ```javascript
 let setObj = new Set([1, 2, 3, 4, 5]);
 
@@ -65,6 +67,17 @@ setObj.forEach((num) => console.log(num * 2)); // 2, 4, 6, 8, 10
 
 -   Map 객체는 `key` 와 `value` 로 이루어진 한 쌍의 데이터를 보관할 수 있다.
 -   또한 본래의 삽입 순서를 기억하기에, 반복 시 먼저 삽입된 `key` 와 `value` 값이 나온다.
+
+> Object 와 다른 점이란?
+
+-   `Object` 는 키에 무조건 문자열 혹은 심볼만 들어갈 수 있으나, `Map` 은 어떠한 자료형이던 전부 허용함. 심지어는 객체도 key 값으로 적용할 수 있다.
+-   `Map` 은 순회가 가능한 iterable 객체이나, `Object` 의 경우 그렇지 않다.
+-   자료구조에 추가, 삭제가 빈번할수록 `Map` 이 더 뛰어난 성능을 보여준다.
+
+#### 업데이트 예정인 지식 목록
+
+1. SameValueZero (map 이 키를 비교하는 방식)
+2. Map Chaining (set 메서드는 map 객체를 반환하므로 연속된 작업이 가능)
 
 #### 2. Map의 인스턴스 메서드
 
@@ -112,7 +125,12 @@ mapObj.get('age'); // 25
 -   Map 객체의 `value` 값을 **삽입된 순서대로** 순회할 수 있는 Iterator 객체를 반환한다.
 -   따라서 반환받은 Iterator 객체를 `next()` 메서드를 통해 반복시킬 수 있다.
 
-8. Map.prototype.forEach()
+8. Map.prototype.entries()
+
+-   Map 객체의 `key`, `value` 값을 한 쌍으로 하는 iterator 객체를 반환한다.
+-   따라서 반환받은 Iterator 객체를 `next()` 메서드를 통해 반복시킬 수 있다.
+
+9. Map.prototype.forEach()
 
 -   Map 객체에 요소가 **삽입된 순서대로** 주어진 함수를 실행시킨다.
 
@@ -227,6 +245,8 @@ weakMap.set('key4', 'key'); // Uncaught TypeError: Invalid value used as weak ma
 -   인자로 받은 값이 WeakMap 객체 내부에 있는지를 확인하고, 결과를 `boolean` 으로 반환한다.
 
 # WeakSet / WeakMap은 Set / Map과 어떤 차이가 있나?
+
+> https://ui.toast.com/posts/ko_20210901 : 참고 자료
 
 -   WeakSet과 WeakMap의 경우 iterable 하지 않아 열거 메서드를 지원해주지는 못한다.
 -   하지만 객체의 참조를 **약하게 하여** 메모리 누수 관리에 큰 메리트가 있는 자료구조이다.

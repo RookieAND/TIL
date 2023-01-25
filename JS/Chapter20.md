@@ -31,20 +31,23 @@ console.log(leftObj); // {major : 'computer engineering', age: 25}
 ### async 이터레이터와 제너레이터
 
 -   비동기 이터레이터를 사용할 경우, 비동기적으로 들어오는 데이터를 필요에 따라 처리할 수 있다.
--   일반적인 iterable 객체에서는 `[Symbol.iterator]` 속성이 쓰이지만, 비동기적인 경우 `[Symbol.asyncIterator]` 속성을 써야 한다.
--   `next()` 메서드는 반드시 Promise를 반환해야 한다.
--   비동기 이터러블 객체를 대상으로 한 반복 작업은 `for await (let item of iterable)` 반복문을 사용해야 한다.
+-   일반적인 iterable 객체에서는 `[Symbol.iterator]` 속성이 쓰인다.
+-   하지만 비동기로 작동하는 iterable 객체의 경우 `[Symbol.asyncIterator]` 속성을 써야 한다.
+-   또한 반환된 iterator 객체 내부의 `next()` 메서드는 반드시 Promise를 반환해야 한다.
+-   비동기 iterable 객체를 대상으로 한 반복 작업은 `for await (let item of iterable)` 반복문을 사용해야 한다.
 -   단, 전개 구문의 경우 일반적인 이터레이터가 필요하므로 비동기 상황에서는 작동하지 않음
 
 ```javascript
 let asyncRange = {
     from: 1,
     to: 5,
+    // 비동기적으로 작동하는 iterable 객체이므로 [Symbol.asyncIterator] 사용
     [Symbol.asyncIterator]() {
         return {
             current: this.from,
             last: this.to,
 
+            // next 메서드의 경우 반드시 Promise를 반환해야 한다.
             async next() {
                 await new Promise((resolve) => setTimeout(resolve, 1000));
                 if (this.current <= this.last) {
@@ -56,7 +59,7 @@ let asyncRange = {
     },
 };
 
-// asyncRange의 비동기 이터레이터를 반복시켜 1초 간격으로 숫자 출력
+// asyncRange의 비동기 iterable 객체를 반복시켜 1초 간격으로 숫자 출력
 (async () => {
     for await (let num of asyncRange) {
         console.log(num); // 1, 2, 3, 4, 5 (1초 간격으로 출력)

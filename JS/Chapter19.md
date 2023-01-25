@@ -17,9 +17,25 @@ f().then((data) => console.log(data)); // 1
 ### Await
 
 -   `await` 키워드는 항상 `async` 키워드가 붙은 함수 내부에서만 사용해야 한다.
+-   `await` 키워드가 붙을 경우 해당 작업은 반드시 Promise를 반환해야 한다.
 -   JS 는 `await` 키워드를 만나면 Promise가 이행되기 전까지 대기하며, 처리 이후에 실행이 재개된다.
 -   Promise가 처리되기를 기다리는 동안 JS 엔진은 다른 업무를 할 수 있기에 CPU 리소스를 절약할 수 있다.
--   `Promise.then` 보다 더욱 가독성이 좋은 코드를 만들 수 있으며, 쓰기도 쉽다.
+-   `Promise.then` 보다 더욱 가독성이 좋은 코드를 만들 수 있으며 쓰기도 쉽다.
+
+> await는 최상위 레벨 코드에서 작동하지 않는가?
+
+-   ES2022 에서는 await 을 독립적으로 사용 가능하도록 문법이 개선되었다.
+
+```javascript
+async () => {
+    await fetch('http://....');
+};
+
+// 개선된 문법
+() => {
+    await fetch('http://...');
+}
+```
 
 ```javascript
 function walk(amount) {
