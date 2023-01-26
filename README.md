@@ -19,12 +19,13 @@
 -   Git Hooks와 Husky는 무엇이며, 왜 써야 하는가?
 -   MIME type은 뭐고, Content-type은 뭘까
 -   CSR, SSR, SPA, MPA, 이것들은 뭘까
--   server state는 무엇이고, react query는 왜 쓸까
+-   server state는 무엇이고, react query는 왜 쓸까 // 보강 필요
 -   JS에서 iterable한 객체는 무엇을 의미하는 걸까?
 
 ## 🔐 Unsolved Question List
 
 -   Polyfill, Transfile, Compile의 차이점이란?
+-   React Component의 Life Cycle 을 수정해보자
 -   React Fiber는 무엇이며, 어떻게 성능을 향상시켰는가?
 -   클래스형 컴포넌트에서 함수형 컴포넌트로 전환한 이유는 무엇인가?
 -   Vite는 무엇이며, 왜 사용하는 걸까
