@@ -101,7 +101,7 @@ Object.getOwnPropertyDescriptors(person);
 ### Trailing commas
 
 -   객체나 배열에새로운 요소를 추가하려는 경우, 마지막 요소인지와 관계 없이 뒤에 쉼표를 찍는 것이 허용된다.
--   배열에 후행 쉼표가 2개 이상 사용될 경우 구멍이 생성되며, 구멍이 있는 배열을 희소 (Sparse) 라고 한다.
+-   배열에 후행 쉼표가 2개 이상 사용될 경우 구멍이 생성되며, 구멍이 있는 배열을 `희소 (Sparse)` 라고 한다.
 -   함수나 메서드의 경우에도 후행 쉼표를 사용하여 매개변수를 표현할 수 있다.
 -   단, `JSON` 의 경우 후행 쉼표를 허용하지 않으니 유의해야 한다.
 
@@ -118,14 +118,14 @@ const object = {
 
 ### Atomics
 
--   Atomics 객체는 아토믹 연산을 위한 정적 메서드를 제공하며, SharedArrayBuffer 객체와 같이 사용된다.
+-   Atomics 객체는 아토믹 연산을 위한 정적 메서드를 제공하며, `SharedArrayBuffer` 객체와 같이 사용된다.
 -   Atomics를 활용하면 여러 스레드가 공유하는 데이터에서 정확하게 값을 읽고 쓸 수 있게 해준다.
 -   Atomics를 활용한 작업은 다음 작업이 시작되기 전에 완료되고, 중단되지 않는 것이 보장된다.
 -   Atomics 은 생성자가 아니며 모든 속성과 메서드가 정적이므로, new 연산자 및 함수 호출이 제한된다.
 
 > SharedArrayBuffer 란?
 
--   ArrayBuffer 는 JS가 바이너리 데이터를 다루기 위해 제공하는 객체이다.
+-   `ArrayBuffer` 는 JS가 바이너리 데이터를 다루기 위해 제공하는 객체이다.
 -   SharedArrayBuffer의 경우에는 서로 다른 쓰레드가 같은 메모리의 영역을 읽고 쓸 수 있도록 만들어진 객체이다.
 -   한 마디로, 다수의 쓰레드가 동시에 접근할 수 있는 데이터를 제공하는 객체라고 보면 된다.
 
@@ -168,9 +168,9 @@ parentPort.on('message', (data) => {
 ```
 
 -   하단의 예시는 Node.js에서 제공하는 worker_threads 모듈을 사용한 예시이다.
--   메인 쓰레드에서 worker를 생성하고, postMessage를 사용해 32 bit 정수를 2개 저장할 수 있는 SharedArrayBuffer 생성
+-   메인 쓰레드에서 worker를 생성하고, postMessage를 사용해 32 bit 정수를 2개 저장할 수 있는 `SharedArrayBuffer` 생성
 -   이후 worker에서는 전달 받은 데이터를 수정하는데, 이것이 메인 쓰레드의 원본 데이터를 변경시킨다는 점에서 차이를 보인다.
--   ArrayBuffer의 경우에는 postMessage로 **복사된 데이터** 를 보내지만, SharedArrayBuffer는 그렇지 않기 때문.
+-   `ArrayBuffer` 의 경우에는 postMessage로 **복사된 데이터** 를 보내지만, `SharedArrayBuffer` 는 그렇지 않기 때문.
 
 #### Atomic Method
 
@@ -185,8 +185,8 @@ Atomics.add(array, 0, 5); // array의 0번째 인덱스에 5를 적용
 console.info(Atomics.load(array, 0)); // 5
 ```
 
-1. Atomics.add(sharedArrayBuffer, index, value) : 배열의 특정 인덱스에 새로운 값을 더해준다.
-2. Atomics.sub(sharedArrayBuffer, index, value) : 배열의 특정 인덱스에 새로운 값을 빼준다.
-3. Atomics.load(sharedArrayBuffer, index) : 배열의 특정 인덱스에 저장된 값을 가져온다.
-4. Atomics.store(sharedArrayBuffer, index, value) : 배열의 특정 인덱스에 새로운 값을 저장한다.
-5. Atomics.and() / Atomics.or() / Atomics.xror() : 배열의 특정 인덱스에 저장된 값에 대한 비트 연산을 수행한다.
+1. `Atomics.add(sharedArrayBuffer, index, value)` : 배열의 특정 인덱스에 새로운 값을 더해준다.
+2. `Atomics.sub(sharedArrayBuffer, index, value)` : 배열의 특정 인덱스에 새로운 값을 빼준다.
+3. `Atomics.load(sharedArrayBuffer, index)` : 배열의 특정 인덱스에 저장된 값을 가져온다.
+4. `Atomics.store(sharedArrayBuffer, index, value)` : 배열의 특정 인덱스에 새로운 값을 저장한다.
+5. `Atomics.and()`, `Atomics.or()`, `Atomics.xror()` : 배열의 특정 인덱스에 저장된 값에 대한 비트 연산을 수행한다.
