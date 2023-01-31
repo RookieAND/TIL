@@ -119,7 +119,7 @@ function test() {
 
 	setInterval(() => {
 		console.log(map.get("data").deref().data);
-	}, 1000);
+	}, 1000); // 이후 함수가 종료되면 얼마 지나지 않아 에러 발생. 브라우저마다 GC 타이밍이 상이
 }
 
 test();

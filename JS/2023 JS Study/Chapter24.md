@@ -142,3 +142,19 @@ console.log(str.at(-2)); // i
 const err = new Error("test Error", { cause: "just throw error" });
 console.log(err.cause); // 'just throw error'
 ```
+
+# ✒️ ES2023
+
+### ✏️ New Method of Array
+
+#### 1. Array.prototype.findLast()
+
+- `findLast()` 는 배열에서 인자로 받은 콜백 함수를 만족하는 마지막 요소를 찾는다.
+- 만약 조건을 만족하는 요소를 찾지 못한 경우, `find` 와 동일하게 `undefined` 를 반환한다.
+- `findLastIndex()` 는 요소의 값 대신 인덱스를 대신 반환한다.
+
+```javascript
+const arr = [1, 3, 5, 7, 9];
+arr.findLast((v) => v % 2 === 1); // 9
+arr.findLastIndex((v) => v % 2 === 1); // 4
+```
