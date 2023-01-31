@@ -2,9 +2,16 @@
 
 ### ✏️ BigInt
 
-#### 1. Array.prototype.flat(depth)
+- `Number` 값이 나타낼 수 있는 최대치인 `2의 53제곱 - 1` 보다 더 큰 정수를 표현할 수 있는 내장 객체
+- 정수 리터럴 뒤에 `n` 을 붙이거나 `BigInt()` 를 호출하여 생성할 수 있음.
+- `Math` 객체의 메서드 사용이 불가능하며, 연산에서 `Number` 와 혼용하여 사용할 수도 없다.
+- 소수점 결과를 포함하는 연산을 BigInt 와 사용하면 소수점 이하는 사라진다.
 
-내일 정리하기
+```javascript
+const theBiggestInt = 9007199254740991n;
+
+const alsoHuge = BigInt(9007199254740991); // 9007199254740991n
+```
 
 ### ✏️ New Method of Promise
 
@@ -23,7 +30,7 @@ Promise.allSettled([
 ]).then((results) => results.forEach((result) => console.log(result.status))); // fulfilled, rejected, fulfilled
 ```
 
-### ✏️ Nullish Coalescing
+### ✏️ Nullish Coalescing (??)
 
 - 기존의 삼항 연산자 `(?)` 나 기본 값 연산자 `(||)` 및 보호 연산자 `(&&)` 에서 `null`, `undefined`, `""`, `NaN` 등은 모두 falsy 한 값으로 처리되었다.
 - 하지만 ES2020 에서 도입된 Nullish Operator `(??)` 를 도입하면 `null` 과 `undefined` 같은 Nullish 한 값만을 걸러낼 수 있다.
@@ -38,7 +45,7 @@ console.log("" ?? "empty string"); // ""
 console.log(undefined ?? "empty string"); // "empty string"
 ```
 
-### ✏️ Optional Chaining
+### ✏️ Optional Chaining (?.)
 
 - 기존에는 객체 내부의 특정한 프로퍼티가 있는지를 체크하기 위해 조건식을 사용해야 했다.
 - 하지만 Optional Chaining `(?.)` 을 사용하면 프로퍼티가 존재하지 않을 경우 전체 값을 `undefined` 로 반환시킨다.
@@ -74,7 +81,7 @@ a.b?.(); // true
 ### ✏️ Module Namespace Export
 
 - ES2020 부터는 `* as` 문법을 export 에서도 동일하게 사용할 수 있게 되었다.
-- 기존에는 import 에서만 모듈의 이름을 변경하여 가져올 수 있었으나, 이제는 export 에서도 가능하게 되었다.
+- 기존에는 import 에서만 불러온 모듈의 이름을 변경할 수 있었으나, 이제는 export 에서도 가능하게 되었다.
 
 ```javascript
 // test.js

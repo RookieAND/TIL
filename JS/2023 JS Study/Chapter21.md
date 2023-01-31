@@ -33,7 +33,7 @@ arr.flat().map((x) => x * 2); // [2, 4, 6, 8]
 #### 1. Object.fromEntries()
 
 - `Object.fromEntries()` 메서드는 키와 값이 한 쌍으로 묶인 배열을 객체로 반환한다.
-- 인자로는 단순히 배열 뿐만이 아니라 iterable 한 객체가 모두 들어갈 수 있다.
+- 인자로는 단순히 배열 뿐만이 아니라 Map 같은 iterable한 객체가 들어갈 수 있다.
 
 ```javascript
 const entries = new Map([
