@@ -2,8 +2,8 @@
 
 ### Description
 
--   좋은 기회로 만나게 된 네 명의 개발자 분들과 진행한 JS 스터디입니다.
--   학습한 책 : 모던 자바스크립트 핵심 가이드, 자바스크립트 Deep Dive
+- 좋은 기회로 만나게 된 네 명의 개발자 분들과 진행한 JS 스터디입니다.
+- 학습한 책 : 모던 자바스크립트 핵심 가이드, 자바스크립트 Deep Dive
 
 ### Concept
 
@@ -18,31 +18,38 @@
 
 #### Week 1
 
--   [var, const, let](https://github.com/RookieAND/TIL/blob/master/JS/Chapter1.md)
--   [Arror Function](https://github.com/RookieAND/TIL/blob/master/JS/Chapter2.md)
--   [Default Function Parameter](https://github.com/RookieAND/TIL/blob/master/JS/Chapter3.md)
--   [Template literal](https://github.com/RookieAND/TIL/blob/master/JS/Chapter4.md)
--   [String Method in JS](https://github.com/RookieAND/TIL/blob/master/JS/Chapter5.md)
+- [var, const, let](https://github.com/RookieAND/TIL/blob/master/JS/Chapter1.md)
+- [Arror Function](https://github.com/RookieAND/TIL/blob/master/JS/Chapter2.md)
+- [Default Function Parameter](https://github.com/RookieAND/TIL/blob/master/JS/Chapter3.md)
+- [Template literal](https://github.com/RookieAND/TIL/blob/master/JS/Chapter4.md)
+- [String Method in JS](https://github.com/RookieAND/TIL/blob/master/JS/Chapter5.md)
 
 #### Week 2
 
--   [Destructuring](https://github.com/RookieAND/TIL/blob/master/JS/Chapter6.md)
--   [Loop](https://github.com/RookieAND/TIL/blob/master/JS/Chapter7.md)
--   [Array Method in ES6](https://github.com/RookieAND/TIL/blob/master/JS/Chapter8.md)
--   [Spread Operator](https://github.com/RookieAND/TIL/blob/master/JS/Chapter9.md)
--   [Enhanced Object Literal](https://github.com/RookieAND/TIL/blob/master/JS/Chapter10.md)
+- [Destructuring](https://github.com/RookieAND/TIL/blob/master/JS/Chapter6.md)
+- [Loop](https://github.com/RookieAND/TIL/blob/master/JS/Chapter7.md)
+- [Array Method in ES6](https://github.com/RookieAND/TIL/blob/master/JS/Chapter8.md)
+- [Spread Operator](https://github.com/RookieAND/TIL/blob/master/JS/Chapter9.md)
+- [Enhanced Object Literal](https://github.com/RookieAND/TIL/blob/master/JS/Chapter10.md)
 
 #### Week 3
 
--   [Symbol](https://github.com/RookieAND/TIL/blob/master/JS/Chapter11.md)
--   [Class](https://github.com/RookieAND/TIL/blob/master/JS/Chapter12.md)
--   [Promise](https://github.com/RookieAND/TIL/blob/master/JS/Chapter13.md)
--   [Generator](https://github.com/RookieAND/TIL/blob/master/JS/Chapter14.md) // 현재 보강 중
--   [Proxy](https://github.com/RookieAND/TIL/blob/master/JS/Chapter15.md) // 현재 보강 중
+- [Symbol](https://github.com/RookieAND/TIL/blob/master/JS/Chapter11.md)
+- [Class](https://github.com/RookieAND/TIL/blob/master/JS/Chapter12.md)
+- [Promise](https://github.com/RookieAND/TIL/blob/master/JS/Chapter13.md)
+- [Generator](https://github.com/RookieAND/TIL/blob/master/JS/Chapter14.md) // 현재 보강 중
+- [Proxy](https://github.com/RookieAND/TIL/blob/master/JS/Chapter15.md) // 현재 보강 중
 
 #### Week 4
 
--   [Set, Map, WeakSet, WeakMap](https://github.com/RookieAND/TIL/blob/master/JS/Chapter16.md) // 추가 보강 필요
--   [New Feature in ES2016-17](https://github.com/RookieAND/TIL/blob/master/JS/Chapter17-18.md)
--   [Async / Await](https://github.com/RookieAND/TIL/blob/master/JS/Chapter19.md)
--   [ES2020](https://github.com/RookieAND/TIL/blob/master/JS/Chapter20.md)
+- [Set, Map, WeakSet, WeakMap](https://github.com/RookieAND/TIL/blob/master/JS/Chapter16.md) // 추가 보강 필요
+- [New Feature in ES2016-17](https://github.com/RookieAND/TIL/blob/master/JS/Chapter17-18.md)
+- [Async / Await](https://github.com/RookieAND/TIL/blob/master/JS/Chapter19.md)
+- [ES2018](https://github.com/RookieAND/TIL/blob/master/JS/Chapter20.md)
+
+#### Week 5
+
+- [ES2019](https://github.com/RookieAND/TIL/blob/master/JS/Chapter21.md)
+- [ES2020](https://github.com/RookieAND/TIL/blob/master/JS/Chapter22.md)
+- [ES2021](https://github.com/RookieAND/TIL/blob/master/JS/Chapter23.md)
+- [ES2022](https://github.com/RookieAND/TIL/blob/master/JS/Chapter24.md)
