@@ -49,7 +49,7 @@ return React.createElement(MyComponent, {a: 42, b: "testing"}, "Text Here")
 - React 가 커밋 단계에서 DOM 에 변경 사항을 업데이트한 후, 모든 ref가 요청된 DOM 노드 및 컴포넌트 인스턴스를 가리키도록 모든 참조를 업데이트 한다.
 - 이후 동기적으로 `componentDidMount` 나, `componentDidUpdate` 같은 클래스 LifeCycle 메소드를 실행시키거나, `useLayoutEffect` 훅을 실행한다.
 - 이후 React는 잠시 짧은 timeout 을 세팅한 후, `useEffect` 을 실행시킨다. 이는 **Passive Effect** 단계라고도 부른다.
-  - 따라서 `useEffect` 는 반드시 렌더링 이후에 동작하게 된다. DOM에 실제 요소가 반영된 후 약간의 텀을 두고 훅이 실행되도록 구조적으로 작성되었기 때문이다.
+  - 따라서 `useEffect` 는 대부분 렌더링 이후에 동작하게 된다. DOM에 실제 요소가 반영된 후 약간의 텀을 두고 훅이 실행되도록 구조적으로 작성되었기 때문이다.
 
 ### ✏️ 렌더링은 DOM 업데이트를 의미하는 것이 아니다.
 
@@ -58,8 +58,8 @@ return React.createElement(MyComponent, {a: 42, b: "testing"}, "Text Here")
 
 #### 📘 번외 : 왜 useEffect 는 Passive Effect 단계에서 별도로 실행될까?
 
-- `useEffect` 는 비동기적으로 동작하기 때문에 작업에 대한 순서가 보장되지 않는다. 따라서 화면이 온전히 렌더링 된 후에 작업을 처리하도록 React에서는 약간의 timeout 을 둔다.
-  - 만약 Commit Phase 에서 useEffect 와 Paint 작업이 동시에 동작하게 된다면, 리렌더링을 유발하는 요소가 useEffect 내부에 존재한다면 요소가 그려지기 전에 리렌더링이 발생한다.
+- `useEffect` 는 비동기적으로 동작하기 때문에 작업에 대한 순서가 보장되지 않는다. 따라서 화면이 온전히 렌더링 된 후에 작업을 처리하도록 React 에서는 반드시 Passive Effect가 Paint 작업 이후에 실행되도록 하는 로직을 사용하였다. (추후 디테일하게 조사)
+  - 만약 Commit Phase 에서 useEffect 와 Paint 작업이 동시에 동작하게 되었을 때, 리렌더링을 유발하는 요소가 useEffect 내부에 존재한다면 DOM 요소가 그려지기 전에 리렌더링이 발생한다.
 - `useLayoutEffect` 의 경우 동기적으로 작동하기 때문에 작업에 대한 순서가 보장된다. 따라서 해당 훅에서 처리할 작업이 지연된다면 화면이 렌더링되지 않아 문제가 발생한다.
 
 #### 📘 번외 : React 18에 추가된 동시성 개념.

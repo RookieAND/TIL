@@ -1,5 +1,9 @@
 # 📖 Introduction
 
+> 아무리 setState를 많이 넣어도 리렌더링이 한번만 일어나는 이유는 무엇인가?
+
+React를 사용하다 보면 필연적으로 state를 다룰 수밖에 없게 되고, 이를 사용하다 보면 문득 드는 한 가지 의문이 존재한다. 분명 setState 함수는 리렌더링을 유발한다고 했는데 왜 여러번 실행을 해도 한 번만 리렌더링이 진행되는 걸까? 지금은 React 에서 이를 Batching 처리하여 일괄적으로 처리함을 알고 있었지만, React 18에서 소개하는 Automatic Batching은 기존의 Batching 작업을 개선했다고 말하길래 어떤 부분을 개선했는지가 굉장히 궁금하였다. 따라서 공식 문서와 React의 메인테이너 분께서 작성한 글을 토대로 React 에서는 state update 작업을 어떻게 처리하는지 파헤쳐보고자 한다.
+
 # ✒️ Auto Batching
 
 ### ✏️ Batching 이란?
