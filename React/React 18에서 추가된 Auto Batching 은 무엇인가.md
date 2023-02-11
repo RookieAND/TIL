@@ -4,8 +4,8 @@
 
 ### ✏️ Batching 이란?
 
-- `state` 값이 변경되었을 경우 React 에서는 해당 컴포넌트를 리렌더링 하며, 불필요한 리렌더링을 방지하기 위해 **16ms 주기**로 state를 변경하는 작업을 **일괄적으로 처리**한다.
-- 이렇게 `state` 의 업데이트 작업을 한번에 모아 순차적으로 처리하는 방식을 **Batching** 이라고 하며, 이 덕분에 React 에서는 state를 비동기적으로 처리할 수 있게 된다.
+- `state` 값이 변경되었을 경우 React 에서는 해당 컴포넌트를 리렌더링 하며, 불필요한 리렌더링을 방지하기 위해 state를 변경하는 작업을 **일괄적으로 처리**한다.
+- 이렇게 `state` 의 업데이트 작업을 모아 일괄 처리하는 방식을 **Batching** 이라고 하며, 이 덕에 React 에서는 불필요한 리렌더링을 방지할 수 있게 되었다.
 
 ```jsx
 import { useState } from "react";
@@ -36,8 +36,8 @@ export default Counter;
 
 ### ✏️ React 18에서 추가된 Automatic Batching 이란?
 
-- React 18 버전 이하에서는 오직 React 의 **이벤트 핸들러 내부의** state update 작업에 대해서만 Batching 이 가능했다. 하지만 Promise나 setTimeout, Native Event Handler 같은 작업에 대해서는 불가능했다.
-- 왜냐하면 이전에는 **브라우저의 이벤트가 실행되는 중에만** React 에서 Batching 작업을 수행했기 때문이다. 따라서 이벤트가 종료된 후에 실행되는 경우에는 Batching 작업이 불가능했다.
+- React 18 버전 이하에서는 오직 React 의 **이벤트 핸들러 내부의** state update 작업에 대해서만 Batching 이 가능했다. 하지만 Promise나 setTimeout 내부의 작업은 불가능했다.
+- 왜냐하면 이전에는 **브라우저의 이벤트가 실행되는 중에만** Batching 작업을 수행했기 때문이다. 따라서 이벤트가 종료된 후에 실행되는 경우는 Batching 작업이 불가능했다.
 - 하단의 코드의 경우 state update 작업이 비동기적으로 처리되어 Event가 종료된 후에 실행되기 때문에, React의 Batching 작업에 걸리지 않아 두 차례 리렌더링을 유발시켰다.
 
 ```jsx
@@ -48,7 +48,7 @@ function App() {
 	function handleClick() {
 		fetchSomething().then(() => {
 			// React 17 이전의 버전에서는 해당 작업을 Batching 처리하지 않는다.
-			// 왜냐하면 해당 작업은 이벤트가 종료된 이후에 실행되기 때문이다.
+			// 왜냐하면 해당 작업은 이벤트가 종료된 이후 (100ms 뒤) 에 실행되기 때문이다.
 			setCount((c) => c + 1); // 리렌더링 유발
 			setFlag((f) => !f); // 리렌더링 유발
 		});
