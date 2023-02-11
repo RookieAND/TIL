@@ -124,3 +124,8 @@ function handleClick() {
 	// 따라서 해당 함수가 실행될 경우 React는 총 두 번의 리렌더링을 수행한다.
 }
 ```
+
+# 📒 References
+
+- https://beta.reactjs.org/blog/2022/03/08/react-18-upgrade-guide#automatic-batching
+- https://github.com/reactwg/react-18/discussions/21
