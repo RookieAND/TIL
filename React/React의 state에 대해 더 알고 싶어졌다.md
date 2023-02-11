@@ -226,4 +226,5 @@ export default Counter;
 
 - https://beta.reactjs.org/learn/state-a-components-memory
 - https://beta.reactjs.org/learn/state-as-a-snapshot#rendering-takes-a-snapshot-in-time
+- https://beta.reactjs.org/learn/queueing-a-series-of-state-updates
 - https://github.com/reactwg/react-18/discussions/5
