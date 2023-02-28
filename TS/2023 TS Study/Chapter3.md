@@ -284,7 +284,7 @@ const rocket: Rocket = {
 };
 ```
 
--   여기서 나오는 `[props: string]` 이 바로 **인덱스 시그니쳐** 이며, 이는 아래와 같은 뜻을 담고 있다.
+-   여기서 나오는 `[props: string]: string` 이 바로 **인덱스 시그니쳐** 이며, 이는 아래와 같은 뜻을 담고 있다.
 
     -   키의 이름 : 키의 위치만 표시하는 용도이며 타입 체커에서는 사용하지 않는다.
     -   키의 타입 : `string`, `number`, `symbol` 의 조합이어야 한다. 보통은 `string` 을 쓴다.
@@ -299,6 +299,13 @@ const rocket: Rocket = {
     variant: 'v1.0',
     thrust: '4,940 kN',
 };
+
+const rocket2: Rocket = {
+    mame: 'Falcon 9', // thrust 속성이 누락되었음에도 허용된다.
+    variant: 'v1.0',
+};
+
+const empty: Rocket = {}; // 빈 객체여도 허용된다.
 ```
 
 -   하지만 인덱스 시그니쳐를 사용하면 잘못된 키를 포함할 수 있으며, 특정 키가 필요하지 않는다는 단점을 가진다.
@@ -327,7 +334,7 @@ type Row3 = {
 
 # ✒️ Number 인덱스 시그니쳐 대신, Array나 Tuple, ArrayLike를 쓰자.
 
-### ✏️ JS 에서 객체의 키는 무조건 문제열이다.
+### ✏️ JS 에서 객체의 키는 무조건 문자열이다.
 
 ```js
 const obj = {
@@ -447,9 +454,6 @@ const REQUIRES_UPDATE: { [key in keyof ScatterProps]: boolean }; = {
     onClick: false
 }
 
-// 다음과 같이 as 키워드를 사용하여 re-mapped types 기법을 활용할 수도 있다.
-type RequireUpdateOptions = { [key in keyof ScatterProps as key extends 'onClick' ? never : key]: true };
-
 function shouldUpdate(oldProps: ScatterProps, newProps: ScatterProps) {
     let k: keyof ScatterProps;
     for (k in oldProps) {
@@ -459,6 +463,10 @@ function shouldUpdate(oldProps: ScatterProps, newProps: ScatterProps) {
         }
     }
 }
+
+// 다음과 같이 as 키워드를 사용하여 re-mapped types 기법을 활용할 수도 있다.
+type RequireUpdateOptions = { [key in keyof ScatterProps as key extends 'onClick' ? never : key]: true };
 ```
 
 -   매핑된 타입을 사용해서 관련된 값과 타입을 **동기화** 할 수 있으며, 새로운 속성 추가 시 선택을 강제할 수도 있다.
+-   매핑된 타입은 한 객체가 다른 객체와 **정확히 같은 속성을 가지게 할 때** 이상적이기에, 특정 속성에 대한 제한을 걸 때 용이하다.
