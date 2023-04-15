@@ -21,25 +21,25 @@ state, React를 처음 입문했을 당시 나에게는 너무나 생소한 개�
 
 ```jsx
 function Counter() {
-	let count = 0;
+  let count = 0;
 
-	function increaseCount() {
-		count += 1;
-		console.log(count);
-	}
+  function increaseCount() {
+    count += 1;
+    console.log(count);
+  }
 
-	function decreaseCount() {
-		count -= 1;
-		console.log(count);
-	}
+  function decreaseCount() {
+    count -= 1;
+    console.log(count);
+  }
 
-	return (
-		<div>
-			<button onClick={increaseCount}>+1</button>
-			<button onClick={decreaseCount}>-1</button>
-			<p>Count : {count}</p>
-		</div>
-	);
+  return (
+    <div>
+      <button onClick={increaseCount}>+1</button>
+      <button onClick={decreaseCount}>-1</button>
+      <p>Count : {count}</p>
+    </div>
+  );
 }
 
 export default Counter;
@@ -60,25 +60,25 @@ export default Counter;
 import { useState } from "react";
 
 function Counter() {
-	const [count, setCount] = useState(0);
+  const [count, setCount] = useState(0);
 
-	function increaseCount() {
-		setCount(count + 1);
-		console.log(count);
-	}
+  function increaseCount() {
+    setCount(count + 1);
+    console.log(count);
+  }
 
-	function decreaseCount() {
-		setCount(count + 1);
-		console.log(count);
-	}
+  function decreaseCount() {
+    setCount(count + 1);
+    console.log(count);
+  }
 
-	return (
-		<div>
-			<button onClick={increaseCount}>+1</button>
-			<button onClick={decreaseCount}>-1</button>
-			<p>Count : {count}</p>
-		</div>
-	);
+  return (
+    <div>
+      <button onClick={increaseCount}>+1</button>
+      <button onClick={decreaseCount}>-1</button>
+      <p>Count : {count}</p>
+    </div>
+  );
 }
 
 export default Counter;
@@ -94,12 +94,12 @@ export default Counter;
 import Counter from "./Counter";
 
 function App() {
-	return (
-		<div>
-			<Counter />
-			<Counter />
-		</div>
-	);
+  return (
+    <div>
+      <Counter />
+      <Counter />
+    </div>
+  );
 }
 
 export default App;
@@ -119,11 +119,11 @@ export default App;
 
 ```jsx
 function changeState() {
-	const [flag, setFlag] = useState(false);
-	// setFlag (setter) 함수가 세 차례 실행되었지만, 리렌더링은 단 한번만 발생하게 된다.
-	setFlag((prevFlag) => !prevFlag); // false => true
-	setFlag((prevFlag) => !prevFlag); // true => false
-	setFlag((prevFlag) => !prevFlag); // false => true
+  const [flag, setFlag] = useState(false);
+  // setFlag (setter) 함수가 세 차례 실행되었지만, 리렌더링은 단 한번만 발생하게 된다.
+  setFlag((prevFlag) => !prevFlag); // false => true
+  setFlag((prevFlag) => !prevFlag); // true => false
+  setFlag((prevFlag) => !prevFlag); // false => true
 }
 ```
 
@@ -141,22 +141,22 @@ https://velog.io/@rookieand/React-18%EC%97%90%EC%84%9C-%EC%B6%94%EA%B0%80%EB%90%
 import { useState } from "react";
 
 function Counter() {
-	// 초기 렌더링 시 count 값은 0으로 고정된다. 이는 다음 렌더링 이전까지 절대 변경되지 않는다.
-	const [count, setCount] = useState(0);
+  // 초기 렌더링 시 count 값은 0으로 고정된다. 이는 다음 렌더링 이전까지 절대 변경되지 않는다.
+  const [count, setCount] = useState(0);
 
-	function increaseCount() {
-		// 초기 렌더링 이후 count 값은 0으로 고정된다.
-		setCount(count + 1); // 0 + 1 = 1
-		setCount(count + 1); // 0 + 1 = 1, 이전의 결과에 영향을 받지 않고 현재 count 값을 적용한다.
-		setCount(count + 1); // 0 + 1 = 1, 이전의 결과에 영향을 받지 않고 현재 count 값을 적용한다.
-	}
+  function increaseCount() {
+    // 초기 렌더링 이후 count 값은 0으로 고정된다.
+    setCount(count + 1); // 0 + 1 = 1
+    setCount(count + 1); // 0 + 1 = 1, 이전의 결과에 영향을 받지 않고 현재 count 값을 적용한다.
+    setCount(count + 1); // 0 + 1 = 1, 이전의 결과에 영향을 받지 않고 현재 count 값을 적용한다.
+  }
 
-	return (
-		<div>
-			<button onClick={increaseCount}>+3</button>
-			<p>Count : {count}</p>
-		</div>
-	);
+  return (
+    <div>
+      <button onClick={increaseCount}>+3</button>
+      <p>Count : {count}</p>
+    </div>
+  );
 }
 
 export default Counter;
@@ -171,22 +171,22 @@ export default Counter;
 import { useState } from "react";
 
 function Counter() {
-	// 초기 렌더링 시 count 값은 0으로 고정된다. 이는 다음 렌더링 이전까지 절대 변경되지 않는다.
-	const [count, setCount] = useState(0);
+  // 초기 렌더링 시 count 값은 0으로 고정된다. 이는 다음 렌더링 이전까지 절대 변경되지 않는다.
+  const [count, setCount] = useState(0);
 
-	function increaseCount() {
-		// 리렌더링 이후 count 값은 3으로 변경된다. 현재 count 값은 0임에 유의
-		setCount(count + 100); // 0 + 100 = 100
-		setCount(count - 200); // 0 - 200 = -200
-		setCount(count + 1); // 0 + 1 = 1, 최종적으로 count 값은 1로 수정되어 다음 렌더링에 반영됨
-	}
+  function increaseCount() {
+    // 리렌더링 이후 count 값은 3으로 변경된다. 현재 count 값은 0임에 유의
+    setCount(count + 100); // 0 + 100 = 100
+    setCount(count - 200); // 0 - 200 = -200
+    setCount(count + 1); // 0 + 1 = 1, 최종적으로 count 값은 1로 수정되어 다음 렌더링에 반영됨
+  }
 
-	return (
-		<div>
-			<button onClick={increaseCount}>+1</button>
-			<p>Count : {count}</p>
-		</div>
-	);
+  return (
+    <div>
+      <button onClick={increaseCount}>+1</button>
+      <p>Count : {count}</p>
+    </div>
+  );
 }
 
 export default Counter;
@@ -200,25 +200,25 @@ export default Counter;
 import { useState } from "react";
 
 function Counter() {
-	const [number, setNumber] = useState(0);
+  const [number, setNumber] = useState(0);
 
-	return (
-		<div>
-			<h1>{number}</h1>
-			<button
-				onClick={() => {
-					setNumber(number + 5);
-					// setTimeout 함수를 통해 비동기적으로 alert 함수를 3초 후 호출시켰음
-					// 하지만 해당 작업이 스케줄러에 등록된 당시의 state 값인 0이 적용된다.
-					setTimeout(() => {
-						alert(number);
-					}, 3000);
-				}}
-			>
-				+5
-			</button>
-		</div>
-	);
+  return (
+    <div>
+      <h1>{number}</h1>
+      <button
+        onClick={() => {
+          setNumber(number + 5);
+          // setTimeout 함수를 통해 비동기적으로 alert 함수를 3초 후 호출시켰음
+          // 하지만 해당 작업이 스케줄러에 등록된 당시의 state 값인 0이 적용된다.
+          setTimeout(() => {
+            alert(number);
+          }, 3000);
+        }}
+      >
+        +5
+      </button>
+    </div>
+  );
 }
 export default Counter;
 ```
@@ -263,23 +263,23 @@ export default Counter;
 import { useState } from "react";
 
 function App() {
-	// 초기 렌더링 시 count 값은 0으로 고정된다. 이는 다음 렌더링 이전까지 절대 변경되지 않는다.
-	const [count, setCount] = useState(0);
+  // 초기 렌더링 시 count 값은 0으로 고정된다. 이는 다음 렌더링 이전까지 절대 변경되지 않는다.
+  const [count, setCount] = useState(0);
 
-	function increaseCount() {
-		// 리렌더링 이후 count 값은 1으로 변경된다. 현재 count 값은 0임에 유의
-		setCount(count + 100); // 0 + 100 = 100
-		setCount((prevCount) => prevCount + 1); // 100 + 1 = 101
-		setCount((prevCount) => prevCount + 1); // 101 + 1 = 102
-		setCount(count + 1); // 0 + 1 = 1, 최종 count 값은 1으로 변경
-	}
+  function increaseCount() {
+    // 리렌더링 이후 count 값은 1으로 변경된다. 현재 count 값은 0임에 유의
+    setCount(count + 100); // 0 + 100 = 100
+    setCount((prevCount) => prevCount + 1); // 100 + 1 = 101
+    setCount((prevCount) => prevCount + 1); // 101 + 1 = 102
+    setCount(count + 1); // 0 + 1 = 1, 최종 count 값은 1으로 변경
+  }
 
-	return (
-		<div>
-			<button onClick={increaseCount}>+1</button>
-			<p>Count : {count}</p>
-		</div>
-	);
+  return (
+    <div>
+      <button onClick={increaseCount}>+1</button>
+      <p>Count : {count}</p>
+    </div>
+  );
 }
 
 export default App;
@@ -309,28 +309,28 @@ setFriendCount((fc) => fc * 2);
 
 ```jsx
 function MyApp({ Component, pageProps }: AppProps) {
-	const [queryClient] = useState(
-		new QueryClient({
-			defaultOptions: {
-				queries: {
-					refetchOnReconnect: false,
-					refetchOnWindowFocus: false,
-				},
-			},
-		})
-	);
-	return (
-		<QueryClientProvider client={queryClient}>
-			<ReactQueryDevtools initialIsOpen={false} />
-			<Provider>
-				<GlobalStyle />
-				<ThemeProvider theme={theme}>
-					<ModalPortal />
-					<Component {...pageProps} />
-				</ThemeProvider>
-			</Provider>
-		</QueryClientProvider>
-	);
+  const [queryClient] = useState(
+    new QueryClient({
+      defaultOptions: {
+        queries: {
+          refetchOnReconnect: false,
+          refetchOnWindowFocus: false,
+        },
+      },
+    })
+  );
+  return (
+    <QueryClientProvider client={queryClient}>
+      <ReactQueryDevtools initialIsOpen={false} />
+      <Provider>
+        <GlobalStyle />
+        <ThemeProvider theme={theme}>
+          <ModalPortal />
+          <Component {...pageProps} />
+        </ThemeProvider>
+      </Provider>
+    </QueryClientProvider>
+  );
 }
 
 export default MyApp;
@@ -341,36 +341,37 @@ export default MyApp;
 
 ```jsx
 function MyApp({ Component, pageProps }: AppProps) {
-	const [queryClient] = useState(
-		() =>
-			new QueryClient({
-				defaultOptions: {
-					queries: {
-						refetchOnReconnect: false,
-						refetchOnWindowFocus: false,
-					},
-				},
-			})
-	);
-	return (
-		<QueryClientProvider client={queryClient}>
-			<ReactQueryDevtools initialIsOpen={false} />
-			<Provider>
-				<GlobalStyle />
-				<ThemeProvider theme={theme}>
-					<ModalPortal />
-					<Component {...pageProps} />
-				</ThemeProvider>
-			</Provider>
-		</QueryClientProvider>
-	);
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            refetchOnReconnect: false,
+            refetchOnWindowFocus: false,
+          },
+        },
+      })
+  );
+  return (
+    <QueryClientProvider client={queryClient}>
+      <ReactQueryDevtools initialIsOpen={false} />
+      <Provider>
+        <GlobalStyle />
+        <ThemeProvider theme={theme}>
+          <ModalPortal />
+          <Component {...pageProps} />
+        </ThemeProvider>
+      </Provider>
+    </QueryClientProvider>
+  );
 }
 
 export default MyApp;
 ```
 
-- 하지만 다음과 같이 콜백 함수로서 인자를 넣어주게 되면, React에서는 초기 렌더링 시에만 해당 함수를 호출하고 반환된 값을 **별도로 저장한다**. 이후의 렌더링에 대해서는 저장된 값을 꺼내와 적용하는 방식으로 비용을 절약할 수 있다.
-- 만약 state 의 초기 값을 생성하기 위한 함수의 비용이 크다면, useState 훅의 `initialValue` 에 함수를 실행시키지 말고 함수 자체를 인자로 넣어보자. 초기 렌더링 시에만 함수가 호출되고 이후에는 반환된 값을 저장하여 활용하니 훨씬 좋다.
+- 하지만 다음과 같이 콜백 함수로서 인자를 넣어주게 되면, React에서는 초기 렌더링 시에만 해당 함수를 호출하고 반환된 값을 초기화 한다.
+- 이후의 렌더링에 대해서는 함수를 호출하기 전에 초기화가 되었는지 체크하고, 초기화가 된 상태라면 함수를 실행하지 않음으로서 불필요한 함수 호출을 막을 수 있다.
+- 만약 state 의 초기 값을 생성하기 위한 함수의 비용이 크다면, useState 훅의 `initialValue` 에 함수를 실행시키지 말고 콜백 함수를 인자로 넣어보자. 초기 렌더링 시에만 함수가 호출되고 이후에는 반환된 값을 저장하여 활용하니 훨씬 좋다.
 
 # 📒 References
 
