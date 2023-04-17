@@ -235,4 +235,27 @@ let b: never = 1; // number 타입은 never 타입에 할당될 수 없다.
 - `unknown` 속성은 어떠한 타입이던 할당이 가능하지만, 반대로 어떠한 타입으로도 **할당될 수는 없다**. unknown은 오직 자기 자신과 any 타입으로만 할당될 수 있다.
 - `never` 은 반대로 `unknown` 과 반대되는 개념이다. (전체 집합 vs 공집합) `never` 의 경우 어떤 타입에도 할당될 수 없지만, 어떠한 타입으로도 할당될 수 있다.
 
-### ✏️ unknown 은 any랑 어떤 점이 다를까
+### ✏️ 타입 가드를 통해 unknown 에서 타입을 좁히자.
+
+```ts
+interface Book {
+  name: string;
+  author: string;
+}
+
+function isBook(val: unknown): val is Book {
+  return (
+    typeof val === "object" && val !== null && "name" in val && "author" in val
+  );
+}
+```
+
+- `unknown` 타입은 모든 타입에 **할당될 수 있기 때문에**, 가장 넓은 범주에서 차근차근 타입을 좁혀나가 사용자가 의도한 타입으로 추론할 수 있다.
+- 상단의 코드는 val 이 객체이면서 null이 아니고, 동시에 name과 author 속성을 가지는지를 체크하여 최종적으로 **val 이 Book 타입임을 확인**한다.
+- 물론 제네릭을 사용하는 경우도 있지만, 직접 사용자가 안전하게 타입을 좁혀나가는 과정을 채택하는 것이 훨씬 좋다.
+
+### ✏️ object vs {} vs unknown
+
+- `{}` 타입은 `null` 과 `undefined` 를 제외한 모든 값이 허용된다. 심지어 원시형도 가능하다.
+- `object` 타입은 모든 원시형 타입이 아닌 값으로 이루어지며, 객체와 배열은 포함되나 그 외 `number`, `string` 같은 원시형 타입은 들어올 수 없다.
+- `unknown` 은 모든 타입의 상위집합이기 때문에 어떠한 값이던 들어올 수 있다. 단 그렇다고 해서 어떠한 타입에도 할당이 가능한 것은 아니다.
